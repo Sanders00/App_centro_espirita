@@ -1,24 +1,41 @@
-import 'package:app_centro_espirita/Widgets/CustomTextField.dart';
+import 'package:app_centro_espirita/Services/firebase_auth_methods.dart';
+import 'package:app_centro_espirita/Widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+
+
+
+
+class CreateAccountScreen extends StatefulWidget {
+  const CreateAccountScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<CreateAccountScreen> createState() => _CreateAccountScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _CreateAccountScreenState extends State<CreateAccountScreen> {
+  TextEditingController firstNameController = TextEditingController();
+  TextEditingController lastNameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  TextEditingController confirmpasswordController = TextEditingController();
+
+  void signUpUser() async {
+    context.read<FirebaseAuthMethods>().signUpWithEmail(
+          email: emailController.text,
+          password: passwordController.text,
+          context: context,
+        );
+  }
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(backgroundColor: Colors.white, title: Text('CEPAC', style: TextStyle(color: Colors.black, ),),),
       body: Container(
-        decoration:  const BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(transform: GradientRotation(1.5),colors: [
                                       Colors.green,
                                       Colors.lightGreen
@@ -28,7 +45,7 @@ class _LoginScreenState extends State<LoginScreen> {
           alignment: Alignment.center,
           child: Container(
             width: MediaQuery.of(context).size.width * 0.5,
-            height: MediaQuery.of(context).size.height * 0.5,
+            height: MediaQuery.of(context).size.height * 0.7,
             decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(20),
@@ -38,16 +55,32 @@ class _LoginScreenState extends State<LoginScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 const Text(
-                  'Login',
+                  'Criar Conta',
                   style: TextStyle(fontSize: 60),
                 ),
-                const Text('Bem-vindo ao CEPAC! Preencha o formulário abaixo para entrar na sua conta!', style: TextStyle(color: Colors.black54),),
+                const Text('Bem-vindo ao CEPAC! Preencha o formulário abaixo para criar a sua conta!', style: TextStyle(color: Colors.black54),),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 50),
                   child: Divider(),
                 ),
                 Container(
-                 margin: EdgeInsets.symmetric(
+                  margin: EdgeInsets.symmetric(
+                      horizontal: 50),
+                  child: CustomTextField(
+                    controller: firstNameController,
+                    hintText: 'Primeiro Nome',
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.symmetric(
+                      horizontal: 50),
+                  child: CustomTextField(
+                    controller: lastNameController,
+                    hintText: 'Sobrenome',
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.symmetric(
                       horizontal: 50),
                   child: CustomTextField(
                     controller: emailController,
@@ -55,11 +88,19 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 Container(
-                margin: EdgeInsets.symmetric(
+                  margin: EdgeInsets.symmetric(
                       horizontal: 50),
                   child: CustomTextField(
                     controller: passwordController,
                     hintText: 'Senha',
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.symmetric(
+                      horizontal: 50),
+                  child: CustomTextField(
+                    controller: confirmpasswordController,
+                    hintText: 'Confirmar Senha',
                   ),
                 ),
                 Row(
@@ -67,17 +108,15 @@ class _LoginScreenState extends State<LoginScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     ElevatedButton(
-                      onPressed: () {
-                        Modular.to.navigate('/Dashboard');
-                      },
-                      child: const Text('Iniciar Sessão',style: TextStyle(fontSize: 20),),
+                      onPressed: signUpUser,
+                      child: const Text('Criar Conta',style: TextStyle(fontSize: 20),),
                     ),
                     const Padding(padding: EdgeInsets.symmetric(horizontal: 20),child: Text('ou', style: TextStyle(fontSize: 16),),),
-                    ElevatedButton(
+                     ElevatedButton(
                       onPressed: () {
-                        Modular.to.navigate('/Create-Account');
+                        Modular.to.navigate('/');
                       },
-                      child: const Text('Criar Conta',style: TextStyle(fontSize: 20),),
+                      child: const Text('Iniciar Sessão',style: TextStyle(fontSize: 20),),
                     ),
                   ],
                 )

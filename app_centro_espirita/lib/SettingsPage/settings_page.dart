@@ -1,4 +1,4 @@
-import 'package:app_centro_espirita/Utils/SideMenu.dart';
+import 'package:app_centro_espirita/Utils/side_menu.dart';
 import 'package:flutter/material.dart';
 
 class Settings extends StatefulWidget {
