@@ -67,7 +67,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '1083340880393',
     projectId: 'appcepac-dnv',
     storageBucket: 'appcepac-dnv.appspot.com',
-    iosClientId: '1083340880393-em7lbv14ro1s6jk0rkch9rgi6pjmcr49.apps.googleusercontent.com',
+    iosClientId:
+        '1083340880393-em7lbv14ro1s6jk0rkch9rgi6pjmcr49.apps.googleusercontent.com',
     iosBundleId: 'com.example.appCentroEspirita',
   );
 
@@ -77,7 +78,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '1083340880393',
     projectId: 'appcepac-dnv',
     storageBucket: 'appcepac-dnv.appspot.com',
-    iosClientId: '1083340880393-5tngmq2mkr0lu0vpae70gunq33o5r2tv.apps.googleusercontent.com',
+    iosClientId:
+        '1083340880393-5tngmq2mkr0lu0vpae70gunq33o5r2tv.apps.googleusercontent.com',
     iosBundleId: 'com.example.appCentroEspirita.RunnerTests',
   );
 }

@@ -1,4 +1,5 @@
-import 'package:app_centro_espirita/Utils/side_menu.dart';
+import 'package:app_centro_espirita/utils/side_menu.dart';
+import 'package:app_centro_espirita/widgets/custom_appbar.dart';
 import 'package:flutter/material.dart';
 
 class Dashboard extends StatefulWidget {
@@ -11,15 +12,20 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
-      appBar: AppBar(),
-      drawer: DrawerScreen(),
-      body: Column(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text('Dashboard', style: TextStyle(fontSize: 100),)
-        ],
+    return Scaffold(
+      appBar: CustomAppBar(context: context),
+      drawer: const DrawerScreen(currentIndex: 0,),
+      body: const Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'Dashboard',
+              style: TextStyle(fontSize: 100),
+            )
+          ],
+        ),
       ),
     );
   }

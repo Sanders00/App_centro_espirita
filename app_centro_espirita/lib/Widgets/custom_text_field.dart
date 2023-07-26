@@ -3,17 +3,22 @@ import 'package:flutter/material.dart';
 class CustomTextField extends StatelessWidget {
   final TextEditingController controller;
   final String hintText;
+  final bool isPassowrd;
 
   const CustomTextField({
     Key? key,
     required this.controller,
     required this.hintText,
+    required this.isPassowrd,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextField(
       controller: controller,
+      autocorrect: !isPassowrd,
+      enableSuggestions: !isPassowrd,
+      obscureText: isPassowrd,
       decoration: InputDecoration(
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),

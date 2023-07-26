@@ -4,30 +4,26 @@ import 'package:app_centro_espirita/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class ForgotPasswordPage extends StatefulWidget {
+  const ForgotPasswordPage({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<ForgotPasswordPage> createState() => _ForgotPasswordPageState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
 
   @override
   void dispose() {
     emailController.dispose();
-    passwordController.dispose();
     super.dispose();
   }
 
-  void loginUser() {
-    context.read<FirebaseAuthMethods>().loginWithEmail(
-          email: emailController.text,
-          password: passwordController.text,
-          context: context,
-        );
+  void sendPasswordReset() {
+    context
+        .read<FirebaseAuthMethods>()
+        .sendPasswordReset(email: emailController.text, context: context);
   }
 
   @override
@@ -61,11 +57,11 @@ class _LoginScreenState extends State<LoginScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 const Text(
-                  'Login',
+                  'Esqueceu-se da senha?',
                   style: TextStyle(fontSize: 60),
                 ),
                 const Text(
-                  'Bem-vindo ao CEPAC! Preencha o formulário abaixo para entrar na sua conta!',
+                  'Nós o ajudaremos a recuperar a sua conta.',
                   style: TextStyle(color: Colors.black54),
                 ),
                 const Padding(
@@ -81,37 +77,14 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 50),
-                  child: CustomTextField(
-                    isPassowrd: true,
-                    controller: passwordController,
-                    hintText: 'Senha',
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    CustomButton(function: loginUser, text: 'Iniciar Sessão'),
-                    const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
-                      child: Text(
-                        'ou',
-                        style: TextStyle(fontSize: 16),
-                      ),
-                    ),
-                    CustomButton(
-                        function: () {
-                          Modular.to.navigate('/Criar-Conta');
-                        },
-                        text: 'Criar Conta')
-                  ],
-                ),
+                    margin: const EdgeInsets.symmetric(horizontal: 50),
+                    child:
+                        CustomButton(function: sendPasswordReset, text: 'Redefinir senha')),
                 TextButton(
                     onPressed: () {
-                      Modular.to.navigate('/Esqueci-Minha-Senha');
+                      Modular.to.navigate('/');
                     },
-                    child: const Text('Esqueci minha senha'))
+                    child: const Text('Voltar'))
               ],
             ),
           ),
