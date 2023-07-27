@@ -5,7 +5,9 @@ import 'package:app_centro_espirita/forgot_passowrd_page.dart';
 import 'package:app_centro_espirita/login_page.dart';
 import 'package:app_centro_espirita/services/firebase_auth_methods.dart';
 import 'package:app_centro_espirita/SettingsPage/settings_page.dart';
+import 'package:app_centro_espirita/services/firebase_database_methods.dart';
 import 'package:app_centro_espirita/services/firebase_options.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -41,7 +43,8 @@ class AppModule extends Module {
   @override
   List<Bind> get binds => [
         Bind.lazySingleton((i) => const LoginScreen()),
-        Bind.lazySingleton((i) => FirebaseAuthMethods(FirebaseAuth.instance))
+        Bind.lazySingleton((i) => FirebaseAuthMethods(FirebaseAuth.instance)),
+        Bind.lazySingleton((i) => FirebaseDBMethods(FirebaseFirestore.instance))
       ];
 
   @override
@@ -58,7 +61,7 @@ class AppModule extends Module {
         ),
         ChildRoute(
           '/Configurações',
-          child: (context, args) => streamBuilderRoute(const Settings()),
+          child: (context, args) => streamBuilderRoute(const SettingsPage()),
         ),
         ChildRoute(
           '/Crud',

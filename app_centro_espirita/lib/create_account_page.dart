@@ -14,7 +14,6 @@ class CreateAccountScreen extends StatefulWidget {
 
 class _CreateAccountScreenState extends State<CreateAccountScreen> {
   TextEditingController firstNameController = TextEditingController();
-  TextEditingController lastNameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmpasswordController = TextEditingController();
@@ -22,7 +21,6 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
   @override
   void dispose() {
     firstNameController.dispose();
-    lastNameController.dispose();
     emailController.dispose();
     passwordController.dispose();
     confirmpasswordController.dispose();
@@ -91,14 +89,6 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                   margin: const EdgeInsets.symmetric(horizontal: 50),
                   child: CustomTextField(
                     isPassowrd: false,
-                    controller: lastNameController,
-                    hintText: 'Sobrenome',
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 50),
-                  child: CustomTextField(
-                    isPassowrd: false,
                     controller: emailController,
                     hintText: 'Email',
                   ),
@@ -131,9 +121,6 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                         } else if (firstNameController.text.isEmpty) {
                           showSnackBar(
                               context, 'O campo do primeiro nome está vazio');
-                        } else if (lastNameController.text.isEmpty) {
-                          showSnackBar(
-                              context, 'O campo do sobrenome está vazio');
                         } else {
                           signUpUser();
                         }
