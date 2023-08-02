@@ -11,7 +11,8 @@ class ButtonsInfo {
 
 List<ButtonsInfo> _buttonInfo = [
   ButtonsInfo(title: "DashBoard", icon: Icons.home, path: '/Dashboard'),
-  ButtonsInfo(title: "Crud", icon: Icons.table_chart, path: '/Crud'),
+  ButtonsInfo(title: "Grupo de estudos", icon: Icons.table_chart, path: '/Grupo-de-Estudos'),
+  ButtonsInfo(title: "Trabalhadores", icon: Icons.table_chart, path: '/Trabalhadores'),
   ButtonsInfo(title: "Setting", icon: Icons.settings, path: '/Configurações'),
 ];
 

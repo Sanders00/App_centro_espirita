@@ -1,6 +1,7 @@
 import 'package:app_centro_espirita/DashboardPage/dashboard_page.dart';
 import 'package:app_centro_espirita/create_account_page.dart';
-import 'package:app_centro_espirita/crud_page/crud_page.dart';
+import 'package:app_centro_espirita/crud_page/grupo_estudos_crud_page.dart';
+import 'package:app_centro_espirita/crud_page/trabalhador_crud_page.dart';
 import 'package:app_centro_espirita/forgot_passowrd_page.dart';
 import 'package:app_centro_espirita/login_page.dart';
 import 'package:app_centro_espirita/services/firebase_auth_methods.dart';
@@ -64,8 +65,12 @@ class AppModule extends Module {
           child: (context, args) => streamBuilderRoute(const SettingsPage()),
         ),
         ChildRoute(
-          '/Crud',
-          child: (context, args) => streamBuilderRoute(const CrudPage()),
+          '/Trabalhadores',
+          child: (context, args) => streamBuilderRoute(const WorkerCrudPage()),
+        ),
+        ChildRoute(
+          '/Grupo-de-Estudos',
+          child: (context, args) => streamBuilderRoute(const GrupoEstudosCrudPage()),
         ),
         ChildRoute(
           '/Esqueci-Minha-Senha',

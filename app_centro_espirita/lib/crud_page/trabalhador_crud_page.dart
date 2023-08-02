@@ -6,14 +6,14 @@ import 'package:app_centro_espirita/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
-class CrudPage extends StatefulWidget {
-  const CrudPage({super.key});
+class WorkerCrudPage extends StatefulWidget {
+  const WorkerCrudPage({super.key});
 
   @override
-  State<CrudPage> createState() => _CrudPageState();
+  State<WorkerCrudPage> createState() => _WorkerCrudPageState();
 }
 
-class _CrudPageState extends State<CrudPage> {
+class _WorkerCrudPageState extends State<WorkerCrudPage> {
   TextEditingController nomeController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController telefoneController = TextEditingController();
@@ -82,7 +82,7 @@ class _CrudPageState extends State<CrudPage> {
     return Scaffold(
       appBar: CustomAppBar(context: context),
       drawer: const DrawerScreen(
-        currentIndex: 1,
+        currentIndex: 2,
       ),
       body: Center(
         child: Column(
@@ -140,7 +140,6 @@ class _CrudPageState extends State<CrudPage> {
                                   context: context,
                                 );
                               },
-                              //children: workers.map(buildWorker).toList(),
                             );
                           } else {
                             return const CircularProgressIndicator();
