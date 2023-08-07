@@ -12,9 +12,6 @@ class WeekdaysCustomCheckbox extends StatefulWidget {
 class _WeekdaysCustomCheckboxState extends State<WeekdaysCustomCheckbox> {
   @override
   Widget build(BuildContext context) {
-
-    
-
     return StatefulBuilder(builder: (context, setState) {
       return Column(
         children: [

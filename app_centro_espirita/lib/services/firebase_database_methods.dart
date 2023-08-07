@@ -85,7 +85,6 @@ class FirebaseDBMethods {
       final jsonGrupo = grupo.toJson();
       await _firestore.collection('Grupo_Estudos').doc(grupo.id).set(jsonGrupo);
       weekdaysGlobal.forEach((key, value) async {
-        print(value);
         if (value) {
           final weekday = WeekdayDB(
               grupoID: _firestore.collection('Dia_semana').doc(grupo.id).id,
@@ -130,6 +129,15 @@ class FirebaseDBMethods {
       docUser.update({
         'nomeGrupo': nameGrupo,
       });
+      _firestore
+          .collection('Dia_semana')
+          .where('grupo_estudos_id', isEqualTo: id)
+          .get()
+          .then((querySnapshot) {
+        for (var doc in querySnapshot.docs) {
+          print(doc.data());
+        }
+      });
       showSnackBar(context, 'Grupo atualizado!');
     } on FirebaseException catch (e) {
       showSnackBar(context, e.message!);
@@ -139,9 +147,18 @@ class FirebaseDBMethods {
   void deleteGrupoEstudo({
     required String id,
     required BuildContext context,
-  }) {
+  }) async {
     try {
       _firestore.collection('Grupo_Estudos').doc(id).delete();
+      _firestore
+          .collection('Dia_semana')
+          .where('grupo_estudos_id', isEqualTo: id)
+          .get()
+          .then((querySnapshot) {
+        for (var doc in querySnapshot.docs) {
+          _firestore.collection('Dia_semana').doc(doc.id).delete();
+        }
+      });
       showSnackBar(context, 'Grupo foi deletado com sucesso!');
     } on FirebaseException catch (e) {
       showSnackBar(context, e.message!);
@@ -155,17 +172,66 @@ class FirebaseDBMethods {
       _firestore.collection('Dia_semana').snapshots().map((snapshot) =>
           snapshot.docs.map((e) => WeekdayDB.fromJson(e.data())).toList());
 
-  Future<WeekdayDB?> readSingleWeekday(String id,
-      {required BuildContext context}) async {
+  Future<void> readWeekdaysById({required String grupoId}) async {
+    _firestore
+        .collection('Dia_semana')
+        .where('grupo_estudos_id', isEqualTo: grupoId)
+        .get()
+        .then((querySnapshot) {
+      for (var doc in querySnapshot.docs) {
+        weekdaysGlobal[doc.data()['dia_semana']] = true;
+      }
+    });
+  }
+
+  //CRUD TrabalhadoresXGrupoEstudos-----------------------------------------------------------------
+  Future<void> createWorkerXGrupoEstudo(
+      {required String grupoId,
+      required BuildContext context}) async {
     try {
-      final singleWeekday = _firestore.collection('Dia_semana').doc(id);
-      final snapshot = await singleWeekday.get();
-      return WeekdayDB.fromJson(snapshot.data()!);
+      /*final grupo = WorkerXGrupoEstudoDB(
+          id: _firestore.collection('TrabalhadorXGrupo_Estudo').doc().id,
+          grupoId: grupoId,
+          weekdayId: '');
+      final jsonGrupo = grupo.toJson();
+      await _firestore.collection('Grupo_Estudos').doc(grupo.id).set(jsonGrupo);
+      weekdaysGlobal.forEach((key, value) async {
+        if (value) {
+          final weekday = WeekdayDB(
+              grupoID: _firestore.collection('Dia_semana').doc(grupo.id).id,
+              weekdayname: key,
+              id: _firestore.collection('Dia_semana').doc().id);
+          final jsonWeekday = weekday.toJson();
+          await _firestore
+              .collection('Dia_semana')
+              .doc(weekday.id)
+              .set(jsonWeekday);
+          weekdaysGlobal[key] = false;
+        }
+      });
+      showSnackBar(context, 'Grupo criado com sucesso!');*/
     } on FirebaseException catch (e) {
       showSnackBar(context, e.message!);
-      return null;
     }
   }
+}
+
+class WorkerXGrupoEstudoDB {
+  String id;
+  String grupoId;
+  String weekdayId;
+
+  WorkerXGrupoEstudoDB(
+      {required this.grupoId, required this.id, required this.weekdayId});
+
+  Map<String, dynamic> toJson() =>
+      {'id': id, 'grupo_estudos_id': grupoId, 'dia_semana_id': weekdayId};
+
+  static WorkerXGrupoEstudoDB fromJson(Map<String, dynamic> json) =>
+      WorkerXGrupoEstudoDB(
+          grupoId: json['nomeGrupo'],
+          id: json['id'],
+          weekdayId: json['dia_semana_id']);
 }
 
 class WeekdayDB {

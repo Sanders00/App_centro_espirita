@@ -7,3 +7,9 @@ Map<String, bool> weekdaysGlobal = {
       'Sexta-Feira': false,
       'Sábado': false,
     };
+
+resetWeekdaysGlobal(){
+  weekdaysGlobal.forEach((key, value) {
+    weekdaysGlobal[key] = false;
+  });
+}

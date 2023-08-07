@@ -1,5 +1,6 @@
 import 'package:app_centro_espirita/Utils/side_menu.dart';
 import 'package:app_centro_espirita/Widgets/custom_appbar.dart';
+import 'package:app_centro_espirita/crud_page/escolher_grupo_page.dart';
 import 'package:app_centro_espirita/services/firebase_database_methods.dart';
 import 'package:app_centro_espirita/widgets/custom_button.dart';
 import 'package:app_centro_espirita/widgets/custom_text_field.dart';
@@ -117,6 +118,7 @@ class _WorkerCrudPageState extends State<WorkerCrudPage> {
                           Text('Nome'),
                           Text('Email'),
                           Text('Telefone'),
+                          Text(''),
                           Text('')
                         ],
                       ),
@@ -135,7 +137,7 @@ class _WorkerCrudPageState extends State<WorkerCrudPage> {
                               padding: const EdgeInsets.all(5),
                               itemCount: workers.length,
                               itemBuilder: (context, index) {
-                                return CustomTile(
+                                return CustomWorkerTile(
                                   worker: workers[index],
                                   context: context,
                                 );
@@ -156,16 +158,16 @@ class _WorkerCrudPageState extends State<WorkerCrudPage> {
   }
 }
 
-class CustomTile extends StatefulWidget {
-  const CustomTile({super.key, required this.worker, required this.context});
+class CustomWorkerTile extends StatefulWidget {
+  const CustomWorkerTile({super.key, required this.worker, required this.context});
   final Worker worker;
   final BuildContext context;
 
   @override
-  State<CustomTile> createState() => _CustomTileState();
+  State<CustomWorkerTile> createState() => _CustomWorkerTileState();
 }
 
-class _CustomTileState extends State<CustomTile> {
+class _CustomWorkerTileState extends State<CustomWorkerTile> {
   final TextEditingController nomeController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController telefoneController = TextEditingController();
@@ -251,7 +253,6 @@ class _CustomTileState extends State<CustomTile> {
                             .read<FirebaseDBMethods>()
                             .deleteWorker(id: widget.worker.id, context: context);
                         Navigator.pop(context);
-                        
                       },
                       text: 'Excluir'),
                   CustomButton(
@@ -279,6 +280,18 @@ class _CustomTileState extends State<CustomTile> {
             Text(widget.worker.email),
             Text(widget.worker.telefone),
             Row(children: [
+               Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => EscolherGrupo(worker: widget.worker,)), );
+                  },
+                  style: const ButtonStyle(
+                      backgroundColor:
+                          MaterialStatePropertyAll<Color>(Colors.green)),
+                  child: const Icon(Icons.add),
+                ),
+              ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ElevatedButton(
