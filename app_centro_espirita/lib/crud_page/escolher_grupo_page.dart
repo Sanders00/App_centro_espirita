@@ -1,5 +1,8 @@
+import 'package:app_centro_espirita/global.dart';
 import 'package:app_centro_espirita/services/firebase_database_methods.dart';
 import 'package:app_centro_espirita/widgets/custom_appbar.dart';
+import 'package:app_centro_espirita/widgets/custom_button.dart';
+import 'package:app_centro_espirita/widgets/dias_semana_custom_checkbox.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
@@ -119,6 +122,7 @@ class _EscolherGrupoState extends State<EscolherGrupo> {
                             itemCount: grupo.length,
                             itemBuilder: (context, index) {
                               return CustomTileSubToGroup(
+                                worker: widget.worker,
                                 grupo: grupo[index],
                               );
                             },
@@ -138,8 +142,10 @@ class _EscolherGrupoState extends State<EscolherGrupo> {
 }
 
 class CustomTileSubToGroup extends StatefulWidget {
-  const CustomTileSubToGroup({super.key, required this.grupo});
+  const CustomTileSubToGroup(
+      {super.key, required this.grupo, required this.worker});
   final GrupoEsutdoDB grupo;
+  final Worker worker;
 
   @override
   State<CustomTileSubToGroup> createState() => _CustomTileSubToGroupState();
@@ -164,6 +170,61 @@ class _CustomTileSubToGroupState extends State<CustomTileSubToGroup> {
       }
     }
     return text;
+  }
+
+  _addWorkerXGrupoDialog() async{
+    await context.read<FirebaseDBMethods>().readWeekdaysById(grupoId: widget.grupo.id);
+    weekdaysGlobal.forEach((key, value) {
+      if(!value){
+        weekdaysavailableGlobal[key] = value;
+      }
+    
+    },);
+    // ignore: use_build_context_synchronously
+    return showDialog<void>(
+        barrierDismissible: false,
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Titulo'),
+            content: SizedBox(
+              height: MediaQuery.of(context).size.height * 0.55,
+              width: MediaQuery.of(context).size.width * 0.2,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const WeekdaysCustomCheckbox(
+                      title: 'Escolha os dias da semana:'),
+                  CustomButton(
+                      function: () {
+                        setState(() {
+                          _addTrabalhadorXGrupo(
+                             grupoId: widget.grupo.id,
+                              workerId: widget.worker.id);
+                          resetweekdaysavailableGlobal();
+                          resetWeekdaysGlobal();
+                          Navigator.pop(context);
+                        });
+                      },
+                      text: 'Adicionar'),
+                  CustomButton(
+                      function: () {
+                        resetweekdaysavailableGlobal();
+                        resetWeekdaysGlobal();
+                        Navigator.pop(context);
+                      },
+                      text: 'Voltar')
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
+  void _addTrabalhadorXGrupo(
+      {required String grupoId, required String workerId}) {
+    context.read<FirebaseDBMethods>().createWorkerXGrupoEstudo(
+        grupoId: grupoId, workerId: workerId, context: context);
   }
 
   @override
@@ -195,15 +256,15 @@ class _CustomTileSubToGroupState extends State<CustomTileSubToGroup> {
                     return const CircularProgressIndicator();
                   }
                 }),
-                ElevatedButton(
-                  onPressed: () {
-
-                  },
-                  style: const ButtonStyle(
-                      backgroundColor:
-                          MaterialStatePropertyAll<Color>(Colors.green)),
-                  child: const Icon(Icons.add),
-                ),
+            ElevatedButton(
+              onPressed: () {
+                _addWorkerXGrupoDialog();
+              },
+              style: const ButtonStyle(
+                  backgroundColor:
+                      MaterialStatePropertyAll<Color>(Colors.green)),
+              child: const Icon(Icons.add),
+            ),
           ],
         ),
         const Divider(

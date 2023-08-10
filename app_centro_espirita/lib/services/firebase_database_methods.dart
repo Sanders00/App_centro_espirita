@@ -172,8 +172,9 @@ class FirebaseDBMethods {
       _firestore.collection('Dia_semana').snapshots().map((snapshot) =>
           snapshot.docs.map((e) => WeekdayDB.fromJson(e.data())).toList());
 
+
   Future<void> readWeekdaysById({required String grupoId}) async {
-    _firestore
+   await _firestore
         .collection('Dia_semana')
         .where('grupo_estudos_id', isEqualTo: grupoId)
         .get()
@@ -187,50 +188,60 @@ class FirebaseDBMethods {
   //CRUD TrabalhadoresXGrupoEstudos-----------------------------------------------------------------
   Future<void> createWorkerXGrupoEstudo(
       {required String grupoId,
+      required String workerId,
       required BuildContext context}) async {
     try {
-      /*final grupo = WorkerXGrupoEstudoDB(
-          id: _firestore.collection('TrabalhadorXGrupo_Estudo').doc().id,
-          grupoId: grupoId,
-          weekdayId: '');
-      final jsonGrupo = grupo.toJson();
-      await _firestore.collection('Grupo_Estudos').doc(grupo.id).set(jsonGrupo);
-      weekdaysGlobal.forEach((key, value) async {
-        if (value) {
-          final weekday = WeekdayDB(
-              grupoID: _firestore.collection('Dia_semana').doc(grupo.id).id,
-              weekdayname: key,
-              id: _firestore.collection('Dia_semana').doc().id);
-          final jsonWeekday = weekday.toJson();
+      _firestore
+          .collection('Dia_semana')
+          .where('grupo_estudos_id', isEqualTo: grupoId)
+          .get()
+          .then((querySnapshot) async {
+        for (var doc in querySnapshot.docs) {
+          final grupo = WorkerXGrupoEstudoDB(
+              id: _firestore.collection('TrabalhadorXGrupo_Estudo').doc().id,
+              grupoId: grupoId,
+              workerId: workerId,
+              weekdayId: doc.id);
+          final jsonGrupo = grupo.toJson();
           await _firestore
-              .collection('Dia_semana')
-              .doc(weekday.id)
-              .set(jsonWeekday);
-          weekdaysGlobal[key] = false;
+              .collection('TrabalhadorXGrupo_Estudos')
+              .doc(grupo.id)
+              .set(jsonGrupo);
         }
       });
-      showSnackBar(context, 'Grupo criado com sucesso!');*/
+      showSnackBar(context, 'Grupo adicionado com sucesso!');
     } on FirebaseException catch (e) {
       showSnackBar(context, e.message!);
     }
   }
+
+  
 }
 
 class WorkerXGrupoEstudoDB {
   String id;
+  String workerId;
   String grupoId;
   String weekdayId;
 
   WorkerXGrupoEstudoDB(
-      {required this.grupoId, required this.id, required this.weekdayId});
+      {required this.grupoId,
+      required this.id,
+      required this.weekdayId,
+      required this.workerId});
 
-  Map<String, dynamic> toJson() =>
-      {'id': id, 'grupo_estudos_id': grupoId, 'dia_semana_id': weekdayId};
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'grupo_estudos_id': grupoId,
+        'dia_semana_id': weekdayId,
+        'trabalhador_id': workerId
+      };
 
   static WorkerXGrupoEstudoDB fromJson(Map<String, dynamic> json) =>
       WorkerXGrupoEstudoDB(
           grupoId: json['nomeGrupo'],
           id: json['id'],
+          workerId: json['trabalhador_id'],
           weekdayId: json['dia_semana_id']);
 }
 

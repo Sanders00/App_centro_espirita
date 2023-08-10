@@ -25,6 +25,7 @@ class _WeekdaysCustomCheckboxState extends State<WeekdaysCustomCheckbox> {
           CheckboxListTile(
               title: const Text('Domingo'),
               controlAffinity: ListTileControlAffinity.leading,
+              enabled: weekdaysavailableGlobal['Domingo'],
               value: weekdaysGlobal['Domingo'],
               onChanged: (bool? value) {
                 setState(() {
@@ -34,6 +35,7 @@ class _WeekdaysCustomCheckboxState extends State<WeekdaysCustomCheckbox> {
           CheckboxListTile(
               title: const Text('Segunda-Feira'),
               controlAffinity: ListTileControlAffinity.leading,
+              enabled: weekdaysavailableGlobal['Segunda-Feira'],
               value: weekdaysGlobal['Segunda-Feira'],
               onChanged: (value) {
                 setState(() {
@@ -43,6 +45,7 @@ class _WeekdaysCustomCheckboxState extends State<WeekdaysCustomCheckbox> {
           CheckboxListTile(
               title: const Text('Terça-Feira'),
               controlAffinity: ListTileControlAffinity.leading,
+              enabled: weekdaysavailableGlobal['Terça-Feira'],
               value: weekdaysGlobal['Terça-Feira'],
               onChanged: (value) {
                 setState(() {
@@ -52,6 +55,7 @@ class _WeekdaysCustomCheckboxState extends State<WeekdaysCustomCheckbox> {
           CheckboxListTile(
               title: const Text('Quarta-Feira'),
               controlAffinity: ListTileControlAffinity.leading,
+              enabled: weekdaysavailableGlobal['Quarta-Feira'],
               value: weekdaysGlobal['Quarta-Feira'],
               onChanged: (value) {
                 setState(() {
@@ -61,6 +65,7 @@ class _WeekdaysCustomCheckboxState extends State<WeekdaysCustomCheckbox> {
           CheckboxListTile(
               title: const Text('Quinta-Feira'),
               controlAffinity: ListTileControlAffinity.leading,
+              enabled: weekdaysavailableGlobal['Quinta-Feira'],
               value: weekdaysGlobal['Quinta-Feira'],
               onChanged: (value) {
                 setState(() {
@@ -70,6 +75,7 @@ class _WeekdaysCustomCheckboxState extends State<WeekdaysCustomCheckbox> {
           CheckboxListTile(
               title: const Text('Sexta-Feira'),
               controlAffinity: ListTileControlAffinity.leading,
+              enabled: weekdaysavailableGlobal['Sexta-Feira'],
               value: weekdaysGlobal['Sexta-Feira'],
               onChanged: (value) {
                 setState(() {
@@ -79,6 +85,7 @@ class _WeekdaysCustomCheckboxState extends State<WeekdaysCustomCheckbox> {
           CheckboxListTile(
               title: const Text('Sábado'),
               controlAffinity: ListTileControlAffinity.leading,
+              enabled: weekdaysavailableGlobal['Sábado'],
               value: weekdaysGlobal['Sábado'],
               onChanged: (value) {
                 setState(() {

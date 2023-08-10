@@ -213,7 +213,7 @@ class _CustomGrupoTileState extends State<CustomGrupoTile> {
         .read<FirebaseDBMethods>()
         .readSingleGrupoEstudo(widget.grupo.id, context: context);
     nomeGrupoContoller.text = singleGrupo!.nameGrupo;
-    context
+    await context
         .read<FirebaseDBMethods>()
         .readWeekdaysById(grupoId: widget.grupo.id);
   }
