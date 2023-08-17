@@ -1,5 +1,5 @@
 import 'package:app_centro_espirita/global.dart';
-import 'package:app_centro_espirita/utils/show_snackbar.dart';
+import 'package:app_centro_espirita/Utils/show_snackbar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -172,9 +172,8 @@ class FirebaseDBMethods {
       _firestore.collection('Dia_semana').snapshots().map((snapshot) =>
           snapshot.docs.map((e) => WeekdayDB.fromJson(e.data())).toList());
 
-
   Future<void> readWeekdaysById({required String grupoId}) async {
-   await _firestore
+    await _firestore
         .collection('Dia_semana')
         .where('grupo_estudos_id', isEqualTo: grupoId)
         .get()
@@ -215,7 +214,13 @@ class FirebaseDBMethods {
     }
   }
 
-  
+  readWorkerXGrupoEstudo({required String workerId}) => _firestore
+          .collection("TrabalhadorXGrupo_Estudos")
+          .where('trabalhador_id', isEqualTo: workerId)
+          .get()
+          .then((querySnapshot) async {
+        for (var doc in querySnapshot.docs) {}
+      });
 }
 
 class WorkerXGrupoEstudoDB {
@@ -239,7 +244,7 @@ class WorkerXGrupoEstudoDB {
 
   static WorkerXGrupoEstudoDB fromJson(Map<String, dynamic> json) =>
       WorkerXGrupoEstudoDB(
-          grupoId: json['nomeGrupo'],
+          grupoId: json['grupo_estudos_id'],
           id: json['id'],
           workerId: json['trabalhador_id'],
           weekdayId: json['dia_semana_id']);

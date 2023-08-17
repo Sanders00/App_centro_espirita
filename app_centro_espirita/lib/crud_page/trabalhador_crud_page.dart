@@ -1,9 +1,9 @@
 import 'package:app_centro_espirita/Utils/side_menu.dart';
 import 'package:app_centro_espirita/Widgets/custom_appbar.dart';
 import 'package:app_centro_espirita/crud_page/escolher_grupo_page.dart';
-import 'package:app_centro_espirita/services/firebase_database_methods.dart';
-import 'package:app_centro_espirita/widgets/custom_button.dart';
-import 'package:app_centro_espirita/widgets/custom_text_field.dart';
+import 'package:app_centro_espirita/Services/firebase_database_methods.dart';
+import 'package:app_centro_espirita/Widgets/custom_button.dart';
+import 'package:app_centro_espirita/Widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
@@ -35,7 +35,7 @@ class _WorkerCrudPageState extends State<WorkerCrudPage> {
           return AlertDialog(
             title: const Text('Adicionar Trabalhador'),
             content: SizedBox(
-              height: MediaQuery.of(context).size.height * 0.3,
+              height: MediaQuery.of(context).size.height * 0.5,
               width: MediaQuery.of(context).size.width * 0.2,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -159,7 +159,8 @@ class _WorkerCrudPageState extends State<WorkerCrudPage> {
 }
 
 class CustomWorkerTile extends StatefulWidget {
-  const CustomWorkerTile({super.key, required this.worker, required this.context});
+  const CustomWorkerTile(
+      {super.key, required this.worker, required this.context});
   final Worker worker;
   final BuildContext context;
 
@@ -249,9 +250,8 @@ class _CustomWorkerTileState extends State<CustomWorkerTile> {
                 children: [
                   CustomButton(
                       function: () {
-                        context
-                            .read<FirebaseDBMethods>()
-                            .deleteWorker(id: widget.worker.id, context: context);
+                        context.read<FirebaseDBMethods>().deleteWorker(
+                            id: widget.worker.id, context: context);
                         Navigator.pop(context);
                       },
                       text: 'Excluir'),
@@ -280,11 +280,17 @@ class _CustomWorkerTileState extends State<CustomWorkerTile> {
             Text(widget.worker.email),
             Text(widget.worker.telefone),
             Row(children: [
-               Padding(
+              Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => EscolherGrupo(worker: widget.worker,)), );
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => EscolherGrupo(
+                                worker: widget.worker,
+                              )),
+                    );
                   },
                   style: const ButtonStyle(
                       backgroundColor:

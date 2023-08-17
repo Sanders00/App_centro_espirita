@@ -1,7 +1,7 @@
-import 'package:app_centro_espirita/services/firebase_auth_methods.dart';
-import 'package:app_centro_espirita/utils/show_snackbar.dart';
-import 'package:app_centro_espirita/widgets/custom_button.dart';
-import 'package:app_centro_espirita/widgets/custom_text_field.dart';
+import 'package:app_centro_espirita/Services/firebase_auth_methods.dart';
+import 'package:app_centro_espirita/Utils/show_snackbar.dart';
+import 'package:app_centro_espirita/Widgets/custom_button.dart';
+import 'package:app_centro_espirita/Widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 

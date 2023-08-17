@@ -1,10 +1,10 @@
 import 'package:app_centro_espirita/global.dart';
-import 'package:app_centro_espirita/services/firebase_database_methods.dart';
-import 'package:app_centro_espirita/utils/side_menu.dart';
-import 'package:app_centro_espirita/widgets/custom_appbar.dart';
-import 'package:app_centro_espirita/widgets/custom_button.dart';
-import 'package:app_centro_espirita/widgets/custom_text_field.dart';
-import 'package:app_centro_espirita/widgets/dias_semana_custom_checkbox.dart';
+import 'package:app_centro_espirita/Services/firebase_database_methods.dart';
+import 'package:app_centro_espirita/Utils/side_menu.dart';
+import 'package:app_centro_espirita/Widgets/custom_appbar.dart';
+import 'package:app_centro_espirita/Widgets/custom_button.dart';
+import 'package:app_centro_espirita/Widgets/custom_text_field.dart';
+import 'package:app_centro_espirita/Widgets/dias_semana_custom_checkbox.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
@@ -33,7 +33,7 @@ class _GrupoEstudosCrudPageState extends State<GrupoEstudosCrudPage> {
             return AlertDialog(
               title: const Text('Adicionar Grupo de estudos'),
               content: SizedBox(
-                height: MediaQuery.of(context).size.height * 0.55,
+                height: MediaQuery.of(context).size.height,
                 width: MediaQuery.of(context).size.width * 0.2,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -44,21 +44,26 @@ class _GrupoEstudosCrudPageState extends State<GrupoEstudosCrudPage> {
                         isPassowrd: false),
                     const WeekdaysCustomCheckbox(
                         title: 'Escolha os dias da semana:'),
-                    CustomButton(
-                        function: () {
-                          setState(() {
-                            _addGrupoDB();
-                            nomeGrupoContoller.clear();
-                            Navigator.pop(context);
-                          });
-                        },
-                        text: 'Adicionar'),
-                    CustomButton(
-                        function: () {
-                          nomeGrupoContoller.clear();
-                          Navigator.pop(context);
-                        },
-                        text: 'Voltar')
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        CustomButton(
+                            function: () {
+                              setState(() {
+                                _addGrupoDB();
+                                nomeGrupoContoller.clear();
+                                Navigator.pop(context);
+                              });
+                            },
+                            text: 'Adicionar'),
+                        CustomButton(
+                            function: () {
+                              nomeGrupoContoller.clear();
+                              Navigator.pop(context);
+                            },
+                            text: 'Voltar')
+                      ],
+                    ),
                   ],
                 ),
               ),
@@ -184,7 +189,7 @@ class _CustomGrupoTileState extends State<CustomGrupoTile> {
             title: Text(
                 'Deseja mesmo excluir ${widget.grupo.nameGrupo} do banco de dados?'),
             content: SizedBox(
-              height: MediaQuery.of(context).size.height * 0.2,
+              height: MediaQuery.of(context).size.height * 0.3,
               width: MediaQuery.of(context).size.width * 0.2,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -218,7 +223,7 @@ class _CustomGrupoTileState extends State<CustomGrupoTile> {
         .readWeekdaysById(grupoId: widget.grupo.id);
   }
 
-  _updateGrupoDialog() async{
+  _updateGrupoDialog() async {
     getSingleGrupo();
     return showDialog<void>(
         barrierDismissible: false,
@@ -227,7 +232,7 @@ class _CustomGrupoTileState extends State<CustomGrupoTile> {
           return AlertDialog(
             title: const Text('Adicionar Grupo de estudos'),
             content: SizedBox(
-              height: MediaQuery.of(context).size.height * 0.55,
+              height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width * 0.2,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -238,20 +243,25 @@ class _CustomGrupoTileState extends State<CustomGrupoTile> {
                       isPassowrd: false),
                   const WeekdaysCustomCheckbox(
                       title: 'Escolha os dias da semana:'),
-                  CustomButton(
-                      function: () {
-                        setState(() {
-                          resetWeekdaysGlobal();
-                          Navigator.pop(context);
-                        });
-                      },
-                      text: 'Confirmar'),
-                  CustomButton(
-                      function: () {
-                        resetWeekdaysGlobal();
-                        Navigator.pop(context);
-                      },
-                      text: 'Voltar')
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      CustomButton(
+                          function: () {
+                            setState(() {
+                              resetWeekdaysGlobal();
+                              Navigator.pop(context);
+                            });
+                          },
+                          text: 'Confirmar'),
+                      CustomButton(
+                          function: () {
+                            resetWeekdaysGlobal();
+                            Navigator.pop(context);
+                          },
+                          text: 'Voltar')
+                    ],
+                  ),
                 ],
               ),
             ),
