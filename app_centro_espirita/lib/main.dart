@@ -1,14 +1,10 @@
 import 'package:app_centro_espirita/DashboardPage/dashboard_page.dart';
 import 'package:app_centro_espirita/create_account_page.dart';
-import 'package:app_centro_espirita/crud_page/grupo_estudos_crud_page.dart';
-import 'package:app_centro_espirita/crud_page/trabalhador_crud_page.dart';
 import 'package:app_centro_espirita/forgot_passowrd_page.dart';
 import 'package:app_centro_espirita/login_page.dart';
 import 'package:app_centro_espirita/Services/firebase_auth_methods.dart';
 import 'package:app_centro_espirita/SettingsPage/settings_page.dart';
-import 'package:app_centro_espirita/Services/firebase_database_methods.dart';
 import 'package:app_centro_espirita/Services/firebase_options.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -23,29 +19,26 @@ void main() async {
 }
 
 class AppModule extends Module {
-
-  streamBuilderRoute(Widget widget){
-    return  StreamBuilder<User?>(
-                  stream: FirebaseAuth.instance.authStateChanges(),
-                  builder: (context, AsyncSnapshot<User?> snapshot) {
-                    if (snapshot.hasData && snapshot.data != null) {
-                      return widget;
-                    } else if (snapshot.connectionState ==
-                        ConnectionState.waiting) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-                    return const LoginScreen();
-                  },
-                );
+  streamBuilderRoute(Widget widget) {
+    return StreamBuilder<User?>(
+      stream: FirebaseAuth.instance.authStateChanges(),
+      builder: (context, AsyncSnapshot<User?> snapshot) {
+        if (snapshot.hasData && snapshot.data != null) {
+          return widget;
+        } else if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        return const LoginScreen();
+      },
+    );
   }
 
   @override
   List<Bind> get binds => [
         Bind.lazySingleton((i) => const LoginScreen()),
         Bind.lazySingleton((i) => FirebaseAuthMethods(FirebaseAuth.instance)),
-        Bind.lazySingleton((i) => FirebaseDBMethods(FirebaseFirestore.instance))
       ];
 
   @override
@@ -54,7 +47,7 @@ class AppModule extends Module {
             child: (context, args) => streamBuilderRoute(const Dashboard())),
         ChildRoute(
           '/Criar-Conta',
-          child: (context, args) => const CreateAccountScreen() ,
+          child: (context, args) => const CreateAccountScreen(),
         ),
         ChildRoute(
           '/Dashboard',
@@ -64,14 +57,14 @@ class AppModule extends Module {
           '/Configurações',
           child: (context, args) => streamBuilderRoute(const SettingsPage()),
         ),
-        ChildRoute(
-          '/Trabalhadores',
-          child: (context, args) => streamBuilderRoute(const WorkerCrudPage()),
-        ),
-        ChildRoute(
-          '/Grupo-de-Estudos',
-          child: (context, args) => streamBuilderRoute(const GrupoEstudosCrudPage()),
-        ),
+        // ChildRoute(
+        //   '/Trabalhadores',
+        //   child: (context, args) => streamBuilderRoute(const WorkerCrudPage()),
+        // ),
+        // ChildRoute(
+        //   '/Grupo-de-Estudos',
+        //   child: (context, args) => streamBuilderRoute(const GrupoEstudosCrudPage()),
+        // ),
         ChildRoute(
           '/Esqueci-Minha-Senha',
           child: (context, args) => const ForgotPasswordPage(),
@@ -93,5 +86,3 @@ class AppWidget extends StatelessWidget {
     );
   }
 }
-
-
