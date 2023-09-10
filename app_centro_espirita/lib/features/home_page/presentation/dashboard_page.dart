@@ -1,5 +1,5 @@
-import 'package:app_centro_espirita/Utils/side_menu.dart';
-import 'package:app_centro_espirita/Widgets/custom_appbar.dart';
+import 'package:app_centro_espirita/features/utils/side_menu.dart';
+import 'package:app_centro_espirita/features/widgets/custom_appbar.dart';
 import 'package:flutter/material.dart';
 
 class Dashboard extends StatefulWidget {

@@ -1,14 +1,15 @@
-import 'package:app_centro_espirita/DashboardPage/dashboard_page.dart';
-import 'package:app_centro_espirita/create_account_page.dart';
-import 'package:app_centro_espirita/forgot_passowrd_page.dart';
-import 'package:app_centro_espirita/login_page.dart';
-import 'package:app_centro_espirita/Services/firebase_auth_methods.dart';
-import 'package:app_centro_espirita/SettingsPage/settings_page.dart';
-import 'package:app_centro_espirita/Services/firebase_options.dart';
+import 'package:app_centro_espirita/features/home_page/presentation/dashboard_page.dart';
+import 'package:app_centro_espirita/features/login_signin/presentation/forgot_passowrd_page.dart';
+import 'package:app_centro_espirita/features/login_signin/presentation/login_page.dart';
+import 'package:app_centro_espirita/features/login_signin/authentication/firebase_auth_methods.dart';
+import 'package:app_centro_espirita/features/home_page/presentation/settings_page.dart';
+import 'package:app_centro_espirita/features/login_signin/authentication/firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+
+import 'features/login_signin/presentation/create_account_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

@@ -1,29 +1,33 @@
-import 'package:app_centro_espirita/Services/firebase_auth_methods.dart';
-import 'package:app_centro_espirita/Widgets/custom_button.dart';
-import 'package:app_centro_espirita/Widgets/custom_text_field.dart';
+import 'package:app_centro_espirita/features/login_signin/authentication/firebase_auth_methods.dart';
+import 'package:app_centro_espirita/features/widgets/custom_button.dart';
+import 'package:app_centro_espirita/features/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
-class ForgotPasswordPage extends StatefulWidget {
-  const ForgotPasswordPage({super.key});
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
 
   @override
-  State<ForgotPasswordPage> createState() => _ForgotPasswordPageState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
+class _LoginScreenState extends State<LoginScreen> {
   TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
 
   @override
   void dispose() {
     emailController.dispose();
+    passwordController.dispose();
     super.dispose();
   }
 
-  void sendPasswordReset() {
-    context
-        .read<FirebaseAuthMethods>()
-        .sendPasswordReset(email: emailController.text, context: context);
+  void loginUser() {
+    context.read<FirebaseAuthMethods>().loginWithEmail(
+          email: emailController.text,
+          password: passwordController.text,
+          context: context,
+        );
   }
 
   @override
@@ -57,11 +61,11 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 const Text(
-                  'Esqueceu-se da senha?',
+                  'Login',
                   style: TextStyle(fontSize: 60),
                 ),
                 const Text(
-                  'Nós o ajudaremos a recuperar a sua conta.',
+                  'Bem-vindo ao CEPAC! Preencha o formulário abaixo para entrar na sua conta!',
                   style: TextStyle(color: Colors.black54),
                 ),
                 const Padding(
@@ -77,14 +81,37 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   ),
                 ),
                 Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 50),
-                    child:
-                        CustomButton(function: sendPasswordReset, text: 'Redefinir senha')),
+                  margin: const EdgeInsets.symmetric(horizontal: 50),
+                  child: CustomTextField(
+                    isPassowrd: true,
+                    controller: passwordController,
+                    hintText: 'Senha',
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    CustomButton(function: loginUser, text: 'Iniciar Sessão'),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      child: Text(
+                        'ou',
+                        style: TextStyle(fontSize: 16),
+                      ),
+                    ),
+                    CustomButton(
+                        function: () {
+                          Modular.to.navigate('/Criar-Conta');
+                        },
+                        text: 'Criar Conta')
+                  ],
+                ),
                 TextButton(
                     onPressed: () {
-                      Modular.to.navigate('/');
+                      Modular.to.navigate('/Esqueci-Minha-Senha');
                     },
-                    child: const Text('Voltar'))
+                    child: const Text('Esqueci minha senha'))
               ],
             ),
           ),
