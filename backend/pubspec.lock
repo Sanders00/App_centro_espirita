@@ -41,6 +41,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
+  characters:
+    dependency: transitive
+    description:
+      name: characters
+      sha256: "04a925763edad70e8443c99234dc3328f442e811f1d8fd1a72f1c8ad0f69a605"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.3.0"
   collection:
     dependency: transitive
     description:
@@ -80,6 +88,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.3"
+  dart_websocket:
+    dependency: transitive
+    description:
+      name: dart_websocket
+      sha256: "415747001e3f24176e12b4dca6766b2aff804e33a9edc029ae567225f77a943a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
+  either_dart:
+    dependency: transitive
+    description:
+      name: either_dart
+      sha256: "70ed1a98d078ad81e44143624286c07c34ed8b8c7ac1949d686cba9110a732ef"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.4"
   equatable:
     dependency: transitive
     description:
@@ -112,6 +136,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.2"
+  hasura_connect:
+    dependency: "direct main"
+    description:
+      name: hasura_connect
+      sha256: bae4328c56faa39c21ecd909fcb643663f679ee3bead1c637504910de2859456
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.0.0+4"
   http:
     dependency: "direct dev"
     description:
@@ -200,6 +232,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.4"
+  modular_core:
+    dependency: transitive
+    description:
+      name: modular_core
+      sha256: "84cfe65d2ab15b0265a5bdb07a7a0408b06f8d92fee6fb94a3c85e97cbc2d6af"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.3+1"
+  modular_interfaces:
+    dependency: transitive
+    description:
+      name: modular_interfaces
+      sha256: "89db18038048d63de80871189ddc52363814e8181615459e5d88ed0a921acc1f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.2"
   node_preamble:
     dependency: transitive
     description:
@@ -248,6 +296,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.4.1"
+  shelf_modular:
+    dependency: "direct main"
+    description:
+      name: shelf_modular
+      sha256: "9781517e56cc61eef04d208e802dc00cc705d47ec7b195c2279189b7c0368414"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.0"
   shelf_packages_handler:
     dependency: transitive
     description:
@@ -328,6 +384,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.0"
+  string_validator:
+    dependency: transitive
+    description:
+      name: string_validator
+      sha256: "50dd8ecf91db6a732f4a851eeae81ee12406eedc62d0da72f2d91a04a2d10dd8"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.0"
   term_glyph:
     dependency: transitive
     description:
@@ -368,6 +432,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.3.2"
+  uuid:
+    dependency: transitive
+    description:
+      name: uuid
+      sha256: "648e103079f7c64a36dc7d39369cabb358d377078a051d6ae2ad3aa539519313"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.7"
   vm_service:
     dependency: transitive
     description:

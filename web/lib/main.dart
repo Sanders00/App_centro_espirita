@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
 import 'features/login_signin/presentation/create_account_page.dart';
+import 'features/workers_page/presentation/workers_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -58,10 +59,10 @@ class AppModule extends Module {
           '/Configurações',
           child: (context, args) => streamBuilderRoute(const SettingsPage()),
         ),
-        // ChildRoute(
-        //   '/Trabalhadores',
-        //   child: (context, args) => streamBuilderRoute(const WorkerCrudPage()),
-        // ),
+        ChildRoute(
+          '/Trabalhadores',
+          child: (context, args) => streamBuilderRoute(const WorkerCrudPage()),
+        ),
         // ChildRoute(
         //   '/Grupo-de-Estudos',
         //   child: (context, args) => streamBuilderRoute(const GrupoEstudosCrudPage()),

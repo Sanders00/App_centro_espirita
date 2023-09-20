@@ -5,12 +5,14 @@ class WorkerEntity extends Equatable {
   final String name;
   final String telephone;
   final String email;
+  final String whatsapp;
 
   WorkerEntity({
     this.id,
     required this.name,
     required this.telephone,
     required this.email,
+    required this.whatsapp,
   });
 
   @override

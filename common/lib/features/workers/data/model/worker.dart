@@ -6,21 +6,24 @@ class WorkerModel extends WorkerEntity {
     required super.name,
     required super.telephone,
     required super.email,
+    required super.whatsapp,
   });
 
   factory WorkerModel.fromJson(Map<String, dynamic> json) {
     return WorkerModel(
-      id: json['id'] as int,
+      id: json['worker_id'] as int,
       name: json['name'],
-      telephone: json['telephone'],
+      telephone: json['phone'],
       email: json['email'],
+      whatsapp: json['whatsapp'],
     );
   }
 
   Map<String, dynamic> toJson(WorkerModel instance) => <String, dynamic>{
-        'id': instance.id,
+        'worker_id': instance.id,
         'name': instance.name,
-        'telephone': instance.telephone,
-        'email': instance.email
+        'phone': instance.telephone,
+        'email': instance.email,
+        'whatsapp': instance.whatsapp
       };
 }
