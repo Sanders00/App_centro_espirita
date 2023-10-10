@@ -19,11 +19,13 @@ class WorkerModel extends WorkerEntity {
     );
   }
 
-  Map<String, dynamic> toJson(WorkerModel instance) => <String, dynamic>{
-        'worker_id': instance.id,
-        'name': instance.name,
-        'phone': instance.telephone,
-        'email': instance.email,
-        'whatsapp': instance.whatsapp
-      };
+  Map<String, dynamic> toJson() {
+    return {
+      'worker_id': id,
+      'name': name,
+      'phone': telephone,
+      'email': email,
+      'whatsapp': whatsapp
+    };
+  }
 }

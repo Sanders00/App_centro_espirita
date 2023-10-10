@@ -7,13 +7,16 @@ class AppModule extends Module {
   final String hasuraServerURL;
   final String hasuraGraphQLAdminSecret;
 
-  AppModule(
-      {required this.hasuraServerURL, required this.hasuraGraphQLAdminSecret});
+  AppModule({
+    required this.hasuraServerURL,
+    required this.hasuraGraphQLAdminSecret
+  });
 
   @override
   List<Bind<Object>> get binds => [
-        Bind.singleton((i) => HasuraConnect(hasuraServerURL,
-            headers: {'x-hasura-admin-secret': hasuraGraphQLAdminSecret})),
+        Bind.singleton((i) => HasuraConnect(
+              hasuraServerURL, headers: {'x-hasura-admin-secret': hasuraGraphQLAdminSecret}
+            )),
       ];
 
   @override

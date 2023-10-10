@@ -10,17 +10,15 @@ class WorkerListRemoteAPIDataSource {
     try {
       final response = await client.get(
         Uri.parse(
-          'http://192.168.56.1:4000',
+          'http://192.168.56.1:4000/workers',
         ),
         headers: {
           'Content-Type': 'application/json',
           // 'Authorization': 'Bearer $token'
         },
       );
-
       if (response.statusCode == 200 && response.body.isNotEmpty) {
         var bodyResult = json.decode(response.body);
-        print(bodyResult);
         bodyResult['workers'].forEach((element) {
           result.add(WorkerModel.fromJson(element));
         });

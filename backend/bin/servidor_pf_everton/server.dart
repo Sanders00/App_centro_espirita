@@ -20,14 +20,14 @@
 // }
 // //Access to XMLHttpRequest at 'https://backend-app-gfsel.ondigitalocean.app//applicationconsumer_register' from origin 'http://localhost:51262' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.
 
-// bool dontCheckCNNRequests(String origin) {
-//   if (origin.contains('celilaclife') ||
-//       origin.contains('localhost') ||
-//       origin.contains('ddvital')) {
-//     return true;
-//   }
-//   return false;
-// }
+// // bool dontCheckCNNRequests(String origin) {
+// //   if (origin.contains('celilaclife') ||
+// //       origin.contains('localhost') ||
+// //       origin.contains('ddvital')) {
+// //     return true;
+// //   }
+// //   return false;
+// // }
 
 // void main(List<String> arguments) async {
 //   HttpOverrides.global = MyHttpOverrides();

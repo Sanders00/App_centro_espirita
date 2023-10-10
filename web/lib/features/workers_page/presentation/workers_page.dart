@@ -19,7 +19,7 @@ class _WorkerCrudPageState extends State<WorkerCrudPage> {
     return Scaffold(
       appBar: CustomAppBar(context: context),
       drawer: const DrawerScreen(
-        currentIndex: 2,
+        currentIndex: 1,
       ),
       body: Center(
         child: Column(
@@ -69,12 +69,12 @@ class _WorkerCrudPageState extends State<WorkerCrudPage> {
                             return const Text("Erro");
                           } else if (snapshot.hasData) {
                             final workers = snapshot.data!;
-                            print(workers);
                             return ListView.builder(
                               padding: const EdgeInsets.all(5),
                               itemCount: workers.length,
                               itemBuilder: (context, index) {
                                 return CustomWorkerTile(
+                                  worker: workers[index],
                                   context: context,
                                 );
                               },
@@ -95,9 +95,10 @@ class _WorkerCrudPageState extends State<WorkerCrudPage> {
 }
 
 class CustomWorkerTile extends StatefulWidget {
-  const CustomWorkerTile({super.key, required, required this.context});
+  const CustomWorkerTile(
+      {super.key, required, required this.context, required this.worker});
   final BuildContext context;
-
+  final WorkerModel worker;
   @override
   State<CustomWorkerTile> createState() => _CustomWorkerTileState();
 }
@@ -116,9 +117,9 @@ class _CustomWorkerTileState extends State<CustomWorkerTile> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             const CircleAvatar(),
-            Text('name'),
-            Text('email'),
-            Text('telefone'),
+            Text(widget.worker.name),
+            Text(widget.worker.email),
+            Text(widget.worker.telephone),
             Row(children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),

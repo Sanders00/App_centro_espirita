@@ -13,7 +13,10 @@ class WorkGroupModel extends WorkGroupEntity {
     );
   }
 
-  Map<String, dynamic> toJson(WorkGroupModel instance) {
-    return {'id': instance.id, 'groupName': instance.groupName};
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'groupName': groupName,
+    };
   }
 }
