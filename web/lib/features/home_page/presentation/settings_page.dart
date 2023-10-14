@@ -13,9 +13,11 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(context: context,),
-      drawer: const DrawerScreen(currentIndex: 2),
-      body:  const Center(
+      appBar: CustomAppBar(
+        context: context,
+      ),
+      drawer: const DrawerScreen(currentIndex: 3),
+      body: const Center(
         child: Column(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.center,

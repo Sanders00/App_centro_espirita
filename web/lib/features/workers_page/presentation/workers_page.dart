@@ -89,7 +89,7 @@ class _WorkerCrudPageState extends State<WorkerCrudPage> {
     return Scaffold(
       appBar: CustomAppBar(context: context),
       drawer: const DrawerScreen(
-        currentIndex: 1,
+        currentIndex: 2,
       ),
       body: Center(
         child: Column(

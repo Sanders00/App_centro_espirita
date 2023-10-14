@@ -18,41 +18,38 @@ class WorkGroupListRemoteAPIDataSource {
       );
       if (response.statusCode == 200 && response.body.isNotEmpty) {
         var bodyResult = json.decode(response.body);
-        bodyResult['workers'].forEach((element) {
+        bodyResult['work_group'].forEach((element) {
           result.add(WorkGroupModel.fromJson(element));
         });
       }
     } on Exception catch (e) {
       print(e.toString());
     }
+
     return result;
   }
 
   Future<WorkGroupModel?> postWorkGroups({
     required String name,
-    required String email,
-    required String phone,
-    required String whatsapp,
+    required String desc,
   }) async {
     final response = await http.post(
       Uri.parse(
-        'http://192.168.56.1:4000/workers',
+        'http://192.168.56.1:4000/work_groups',
       ),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<dynamic, dynamic>{
         'name': name,
-        'email': email,
-        'phone': phone,
-        'whatsapp': whatsapp,
+        'desc': desc,
       }),
     );
 
     if (response.statusCode == 200) {
       return WorkGroupModel.fromJson(json.decode(response.body));
     } else {
-      throw Exception('Failed to load workers');
+      throw Exception('Failed to load work groups');
     }
   }
 
@@ -61,7 +58,7 @@ class WorkGroupListRemoteAPIDataSource {
   }) async {
     final response = await http.delete(
       Uri.parse(
-        'http://192.168.56.1:4000/workers',
+        'http://192.168.56.1:4000/work_groups',
       ),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
@@ -74,20 +71,18 @@ class WorkGroupListRemoteAPIDataSource {
     if (response.statusCode == 200) {
       return;
     } else {
-      throw Exception('Failed to delete workers');
+      throw Exception('Failed to delete work groups');
     }
   }
 
   Future<WorkGroupModel?> updateWorkGroups({
     required int id,
     required String name,
-    required String email,
-    required String phone,
-    required String whatsapp,
+    required String desc,
   }) async {
     final response = await http.put(
       Uri.parse(
-        'http://192.168.56.1:4000/workers',
+        'http://192.168.56.1:4000/work_groups',
       ),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
@@ -95,16 +90,14 @@ class WorkGroupListRemoteAPIDataSource {
       body: jsonEncode(<dynamic, dynamic>{
         'id': id,
         'name': name,
-        'email': email,
-        'phone': phone,
-        'whatsapp': whatsapp,
+        'desc': desc,
       }),
     );
 
     if (response.statusCode == 200) {
       return WorkGroupModel.fromJson(json.decode(response.body));
     } else {
-      throw Exception('Failed to update workers');
+      throw Exception('Failed to update work groups');
     }
   }
 }
