@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:common/features/workers/data/api/list.dart';
 import 'package:common/features/workers/data/model/worker.dart';
 import 'package:flutter/material.dart';
@@ -5,6 +7,7 @@ import 'package:flutter/material.dart';
 import '../../utils/side_menu.dart';
 import '../../widgets/custom_appbar.dart';
 import '../../widgets/custom_button.dart';
+import '../../widgets/custom_text_field.dart';
 
 class WorkerCrudPage extends StatefulWidget {
   const WorkerCrudPage({super.key});
@@ -14,6 +17,73 @@ class WorkerCrudPage extends StatefulWidget {
 }
 
 class _WorkerCrudPageState extends State<WorkerCrudPage> {
+  TextEditingController nomeController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController whatsController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
+
+  _postWorkerDialog() {
+    return showDialog<void>(
+        barrierDismissible: false,
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Adicionar Trabalhador'),
+            content: SizedBox(
+              height: MediaQuery.of(context).size.height * 0.5,
+              width: MediaQuery.of(context).size.width * 0.2,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  CustomTextField(
+                      controller: nomeController,
+                      hintText: 'nome',
+                      isPassowrd: false),
+                  CustomTextField(
+                      controller: emailController,
+                      hintText: 'email',
+                      isPassowrd: false),
+                  CustomTextField(
+                      controller: phoneController,
+                      hintText: 'telefone',
+                      isPassowrd: false),
+                  CustomTextField(
+                      controller: whatsController,
+                      hintText: 'whatsapp',
+                      isPassowrd: false),
+                  CustomButton(
+                      function: () {
+                        WorkerListRemoteAPIDataSource().postWorkers(
+                          name: nomeController.text,
+                          email: emailController.text,
+                          phone: phoneController.text,
+                          whatsapp: whatsController.text,
+                        );
+                        setState(() {
+                          nomeController.clear();
+                          emailController.clear();
+                          phoneController.clear();
+                          whatsController.clear();
+                          Navigator.pop(context, setState);
+                        });
+                      },
+                      text: 'Adicionar'),
+                  CustomButton(
+                      function: () {
+                        nomeController.clear();
+                        emailController.clear();
+                        phoneController.clear();
+                        whatsController.clear();
+                        Navigator.pop(context, setState);
+                      },
+                      text: 'Voltar')
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,10 +96,10 @@ class _WorkerCrudPageState extends State<WorkerCrudPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              padding: EdgeInsets.all(8),
+              padding: const EdgeInsets.all(8),
               width: 200,
               height: 50,
-              child: CustomButton(function: () {}, text: 'Add+'),
+              child: CustomButton(function: _postWorkerDialog, text: 'Add+'),
             ),
             Container(
               decoration: BoxDecoration(
@@ -63,7 +133,7 @@ class _WorkerCrudPageState extends State<WorkerCrudPage> {
                   Expanded(
                     flex: 9,
                     child: FutureBuilder<List<WorkerModel>>(
-                        future: WorkerListRemoteAPIDataSource().getAll(),
+                        future: WorkerListRemoteAPIDataSource().getWorkers(),
                         builder: (context, snapshot) {
                           if (snapshot.hasError) {
                             return const Text("Erro");
@@ -106,7 +176,78 @@ class CustomWorkerTile extends StatefulWidget {
 class _CustomWorkerTileState extends State<CustomWorkerTile> {
   final TextEditingController nomeController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
-  final TextEditingController telefoneController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
+  final TextEditingController whatsController = TextEditingController();
+
+  _updateWorkerDialog(WorkerModel worker) {
+    return showDialog<void>(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Atualizar Trabalhador'),
+          content: SizedBox(
+            height: MediaQuery.of(context).size.height * 0.5,
+            width: MediaQuery.of(context).size.width * 0.2,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                CustomTextField(
+                  controller: nomeController,
+                  hintText: 'nome',
+                  isPassowrd: false,
+                ),
+                CustomTextField(
+                  controller: emailController,
+                  hintText: 'email',
+                  isPassowrd: false,
+                ),
+                CustomTextField(
+                  controller: phoneController,
+                  hintText: 'telefone',
+                  isPassowrd: false,
+                ),
+                CustomTextField(
+                  controller: whatsController,
+                  hintText: 'whatsapp',
+                  isPassowrd: false,
+                ),
+                CustomButton(
+                    function: () {
+                      WorkerListRemoteAPIDataSource().updateWorkers(
+                        id: worker.id,
+                        name: nomeController.text,
+                        email: emailController.text,
+                        phone: phoneController.text,
+                        whatsapp: whatsController.text,
+                      );
+                      setState(
+                        () {
+                          nomeController.clear();
+                          emailController.clear();
+                          phoneController.clear();
+                          whatsController.clear();
+                          Navigator.pop(context, setState);
+                        },
+                      );
+                    },
+                    text: 'Atualizar'),
+                CustomButton(
+                    function: () {
+                      nomeController.clear();
+                      emailController.clear();
+                      phoneController.clear();
+                      whatsController.clear();
+                      Navigator.pop(context, setState);
+                    },
+                    text: 'Voltar')
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -119,7 +260,7 @@ class _CustomWorkerTileState extends State<CustomWorkerTile> {
             const CircleAvatar(),
             Text(widget.worker.name),
             Text(widget.worker.email),
-            Text(widget.worker.telephone),
+            Text(widget.worker.phone),
             Row(children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -134,14 +275,20 @@ class _CustomWorkerTileState extends State<CustomWorkerTile> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    _updateWorkerDialog(widget.worker);
+                  },
                   child: const Icon(Icons.edit),
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    WorkerListRemoteAPIDataSource().deleteWorkers(
+                      id: widget.worker.id,
+                    );
+                  },
                   style: const ButtonStyle(
                       backgroundColor:
                           MaterialStatePropertyAll<Color>(Colors.red)),

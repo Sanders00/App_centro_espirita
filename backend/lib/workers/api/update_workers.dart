@@ -4,7 +4,7 @@ import 'package:hasura_connect/hasura_connect.dart' hide Request, Response;
 import 'package:shelf/shelf.dart';
 import 'package:shelf_modular/shelf_modular.dart';
 
-Future<Response> instertWorkers(
+Future<Response> updateWorkers(
   Request request,
   Injector injector,
   ModularArguments arguments,
@@ -12,17 +12,13 @@ Future<Response> instertWorkers(
   final hasuraConnect = injector.get<HasuraConnect>();
 
   return hasuraConnect.mutation(r'''
-    mutation InsertWorker(
-      $name: String!, $email: String!, $phone: String!,$whatsapp: String!) {
-        insert_workers_one(object: {name: $name, email: $email, phone: $phone, whatsapp:$whatsapp}) {
-          worker_id
-          name
-          email
-          phone
-          whatsapp
-        }
+  mutation UpdateWorker($_eq: Int!, $name: String!, $email: String!, $phone: String!, $whatsapp: String!) {
+    update_workers(where: {worker_id: {_eq: $_eq}}, _set: {name: $name, email: $email, phone: $phone, whatsapp: $whatsapp}) {
+      affected_rows
     }
+  }
       ''', variables: {
+    '_eq': arguments.data['id'],
     'name': arguments.data['name'],
     'email': arguments.data['email'] ?? '',
     'phone': arguments.data['phone'] ?? '',
@@ -30,7 +26,7 @@ Future<Response> instertWorkers(
   }).then(
     (value) {
       return Response.ok(
-        jsonEncode(value['data']['insert_workers_one']),
+        jsonEncode(value['data']['update_workers']),
       );
     },
   );

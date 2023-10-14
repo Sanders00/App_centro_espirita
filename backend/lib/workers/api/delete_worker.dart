@@ -14,15 +14,10 @@ Future<Response> deleteWorkers(
   var hasuraResponse = await hasuraConnect.mutation(r'''
       mutation DeleteWorker($id: Int!) {
         delete_workers_by_pk(worker_id: $id) {
-          name
-          email
-          phone
-          whatsapp
-          updated_at
-          created_at
+          worker_id
         }
       }
-      ''', variables: {"id": arguments.params['id']});
+      ''', variables: {"id": arguments.data['id']});
 
   return Response.ok(jsonEncode(hasuraResponse['data']));
 }

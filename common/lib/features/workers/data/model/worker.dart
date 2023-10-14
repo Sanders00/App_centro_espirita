@@ -4,7 +4,7 @@ class WorkerModel extends WorkerEntity {
   WorkerModel({
     required super.id,
     required super.name,
-    required super.telephone,
+    required super.phone,
     required super.email,
     required super.whatsapp,
   });
@@ -13,7 +13,7 @@ class WorkerModel extends WorkerEntity {
     return WorkerModel(
       id: json['worker_id'] as int,
       name: json['name'],
-      telephone: json['phone'],
+      phone: json['phone'],
       email: json['email'],
       whatsapp: json['whatsapp'],
     );
@@ -23,7 +23,7 @@ class WorkerModel extends WorkerEntity {
     return {
       'worker_id': id,
       'name': name,
-      'phone': telephone,
+      'phone': phone,
       'email': email,
       'whatsapp': whatsapp
     };

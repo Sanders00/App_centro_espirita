@@ -31,7 +31,7 @@ void main() async {
 
   final overrideHeaders = {
     ACCESS_CONTROL_ALLOW_ORIGIN: '*',
-    ACCESS_CONTROL_ALLOW_METHODS: 'POST, OPTIONS, GET',
+    ACCESS_CONTROL_ALLOW_METHODS: 'POST, OPTIONS, GET, DELETE, PUT',
     ACCESS_CONTROL_ALLOW_HEADERS:
         "Origin,Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,locale",
   };

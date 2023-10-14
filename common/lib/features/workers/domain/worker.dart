@@ -1,16 +1,16 @@
 import 'package:equatable/equatable.dart';
 
 class WorkerEntity extends Equatable {
-  final int? id;
+  final int id;
   final String name;
-  final String telephone;
+  final String phone;
   final String email;
   final String whatsapp;
 
   WorkerEntity({
-    this.id,
+    required this.id,
     required this.name,
-    required this.telephone,
+    required this.phone,
     required this.email,
     required this.whatsapp,
   });

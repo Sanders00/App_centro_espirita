@@ -1,16 +1,16 @@
 import 'dart:convert';
 
-import 'package:common/features/workers/data/model/worker.dart';
+import 'package:common/features/work_group/data/model/work_group.dart';
 import 'package:http/http.dart' as http;
 
-class WorkerListRemoteAPIDataSource {
-  Future<List<WorkerModel>> getWorkers() async {
+class WorkGroupListRemoteAPIDataSource {
+  Future<List<WorkGroupModel>> getWorkGroups() async {
     var client = http.Client();
-    final result = <WorkerModel>[];
+    final result = <WorkGroupModel>[];
     try {
       final response = await client.get(
         Uri.parse(
-          'http://192.168.56.1:4000/workers',
+          'http://192.168.56.1:4000/work_groups',
         ),
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
@@ -19,7 +19,7 @@ class WorkerListRemoteAPIDataSource {
       if (response.statusCode == 200 && response.body.isNotEmpty) {
         var bodyResult = json.decode(response.body);
         bodyResult['workers'].forEach((element) {
-          result.add(WorkerModel.fromJson(element));
+          result.add(WorkGroupModel.fromJson(element));
         });
       }
     } on Exception catch (e) {
@@ -28,7 +28,7 @@ class WorkerListRemoteAPIDataSource {
     return result;
   }
 
-  Future<WorkerModel?> postWorkers({
+  Future<WorkGroupModel?> postWorkGroups({
     required String name,
     required String email,
     required String phone,
@@ -50,13 +50,13 @@ class WorkerListRemoteAPIDataSource {
     );
 
     if (response.statusCode == 200) {
-      return WorkerModel.fromJson(json.decode(response.body));
+      return WorkGroupModel.fromJson(json.decode(response.body));
     } else {
       throw Exception('Failed to load workers');
     }
   }
 
-  Future deleteWorkers({
+  Future deleteWorkGroups({
     required int id,
   }) async {
     final response = await http.delete(
@@ -78,7 +78,7 @@ class WorkerListRemoteAPIDataSource {
     }
   }
 
-  Future<WorkerModel?> updateWorkers({
+  Future<WorkGroupModel?> updateWorkGroups({
     required int id,
     required String name,
     required String email,
@@ -102,7 +102,7 @@ class WorkerListRemoteAPIDataSource {
     );
 
     if (response.statusCode == 200) {
-      return WorkerModel.fromJson(json.decode(response.body));
+      return WorkGroupModel.fromJson(json.decode(response.body));
     } else {
       throw Exception('Failed to update workers');
     }

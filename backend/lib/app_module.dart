@@ -1,3 +1,4 @@
+import 'package:dart_server/work_group/resource.dart';
 import 'package:dart_server/workers/resource.dart';
 import 'package:hasura_connect/hasura_connect.dart' hide Response;
 import 'package:shelf_modular/shelf_modular.dart';
@@ -23,5 +24,6 @@ class AppModule extends Module {
   List<ModularRoute> get routes => [
         Route.get('/', () => Response.ok('funcionando')),
         Route.resource(WorkerResource()),
+        Route.resource(WorkGroupResource()),
       ];
 }

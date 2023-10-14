@@ -4,7 +4,7 @@ import 'package:hasura_connect/hasura_connect.dart' hide Request, Response;
 import 'package:shelf/shelf.dart';
 import 'package:shelf_modular/shelf_modular.dart';
 
-Future<Response> getAllWorkers(
+Future<Response> getAllWorkGroups(
   Request request,
   Injector injector,
   ModularArguments arguments,
@@ -12,17 +12,12 @@ Future<Response> getAllWorkers(
   final hasuraConnect = injector.get<HasuraConnect>();
 
   var hasuraResponse = await hasuraConnect.query('''
-      query GetAllWorkers {
-        workers(order_by: {name: asc}) {
-          worker_id
-          name
-          email
-          phone
-          whatsapp
-          created_at
-          updated_at
-        }
+      query GetAllWorkGroups {
+        work_group(order_by: {name: asc}) {
+        name
+        desc
       }
+    }
       ''');
 
   return Response.ok(jsonEncode(hasuraResponse['data']));
