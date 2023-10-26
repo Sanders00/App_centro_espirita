@@ -1,3 +1,4 @@
+import 'package:dart_server/schedule/resource.dart';
 import 'package:dart_server/work_group/resource.dart';
 import 'package:dart_server/workers/resource.dart';
 import 'package:hasura_connect/hasura_connect.dart' hide Response;
@@ -25,5 +26,6 @@ class AppModule extends Module {
         Route.get('/', () => Response.ok('funcionando')),
         Route.resource(WorkerResource()),
         Route.resource(WorkGroupResource()),
+        Route.resource(ScheduleResource()),
       ];
 }

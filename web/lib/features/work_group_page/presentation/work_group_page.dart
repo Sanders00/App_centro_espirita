@@ -1,8 +1,11 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:app_centro_espirita/features/widgets/dias_semana_custom_checkbox.dart';
+import 'package:app_centro_espirita/features/work_group_page/model/model.dart';
 import 'package:common/features/work_group/data/api/list.dart';
 import 'package:common/features/work_group/data/model/work_group.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 
 import '../../utils/side_menu.dart';
 import '../../widgets/custom_appbar.dart';
@@ -28,7 +31,7 @@ class _WorkerCrudPageState extends State<WorkGroupCrudPage> {
           return AlertDialog(
             title: const Text('Adicionar Trabalhador'),
             content: SizedBox(
-              height: MediaQuery.of(context).size.height * 0.5,
+              height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width * 0.2,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -41,15 +44,21 @@ class _WorkerCrudPageState extends State<WorkGroupCrudPage> {
                       controller: descController,
                       hintText: 'descrição',
                       isPassowrd: false),
+                  const WorkXWeekdaysCheckBoxes(),
                   CustomButton(
                       function: () {
                         WorkGroupListRemoteAPIDataSource().postWorkGroups(
                           name: groupNameController.text,
                           desc: descController.text,
+                          workXWeekdays: Modular.get<SelectedWeekdays>()
+                              .selectedWorkXWeekdays,
                         );
                         setState(() {
                           groupNameController.clear();
                           descController.clear();
+                          Modular.get<SelectedWeekdays>()
+                              .selectedWorkXWeekdays
+                              .clear();
                           Navigator.pop(context, setState);
                         });
                       },

@@ -8,15 +8,15 @@ class ScheduleModel extends ScheduleEntity {
 
   factory ScheduleModel.fromJson(Map<String, dynamic> json) {
     return ScheduleModel(
-      id: json['id'] as int,
-      weekday: json['weekday'],
+      id: json['weekdays_id'] as int,
+      weekday: json['weekday_name'] as String,
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
-      'weekday': weekday,
+      'weekdays_id': id,
+      'weekday_name': weekday,
     };
   }
 }

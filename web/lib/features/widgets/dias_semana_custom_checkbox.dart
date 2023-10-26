@@ -1,99 +1,61 @@
-import 'package:app_centro_espirita/global.dart';
+
+import 'package:app_centro_espirita/features/work_group_page/model/model.dart';
+import 'package:common/features/schedule/data/api/list.dart';
+import 'package:common/features/schedule/data/model/schedule.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 
-class WeekdaysCustomCheckbox extends StatefulWidget {
-  const WeekdaysCustomCheckbox({super.key, required this.title});
+class WorkXWeekdaysCheckBoxes extends StatefulWidget {
+  const WorkXWeekdaysCheckBoxes({super.key});
 
-  final String title;
   @override
-  State<WeekdaysCustomCheckbox> createState() => _WeekdaysCustomCheckboxState();
+  _WorkXWeekdaysCheckBoxesState createState() =>
+      _WorkXWeekdaysCheckBoxesState();
 }
 
-class _WeekdaysCustomCheckboxState extends State<WeekdaysCustomCheckbox> {
+class _WorkXWeekdaysCheckBoxesState extends State<WorkXWeekdaysCheckBoxes> {
+  List<dynamic> selectedWorkXWeekdays = Modular.get<SelectedWeekdays>().selectedWorkXWeekdays;
+
+  final Future<List<ScheduleModel>> weekdaysFuture =
+      ScheduleListRemoteAPIDataSource().getWeekdays();
+
   @override
   Widget build(BuildContext context) {
-    return StatefulBuilder(builder: (context, setState) {
-      return Column(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(4),
-            child: Text(
-              widget.title,
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-          ),
-          CheckboxListTile(
-              title: const Text('Domingo'),
-              controlAffinity: ListTileControlAffinity.leading,
-              enabled: weekdaysavailableGlobal['Domingo'],
-              value: weekdaysGlobal['Domingo'],
-              onChanged: (bool? value) {
-                setState(() {
-                  weekdaysGlobal['Domingo'] = value!;
-                });
-              }),
-          CheckboxListTile(
-              title: const Text('Segunda-Feira'),
-              controlAffinity: ListTileControlAffinity.leading,
-              enabled: weekdaysavailableGlobal['Segunda-Feira'],
-              value: weekdaysGlobal['Segunda-Feira'],
-              onChanged: (value) {
-                setState(() {
-                  weekdaysGlobal['Segunda-Feira'] = value!;
-                });
-              }),
-          CheckboxListTile(
-              title: const Text('Terça-Feira'),
-              controlAffinity: ListTileControlAffinity.leading,
-              enabled: weekdaysavailableGlobal['Terça-Feira'],
-              value: weekdaysGlobal['Terça-Feira'],
-              onChanged: (value) {
-                setState(() {
-                  weekdaysGlobal['Terça-Feira'] = value!;
-                });
-              }),
-          CheckboxListTile(
-              title: const Text('Quarta-Feira'),
-              controlAffinity: ListTileControlAffinity.leading,
-              enabled: weekdaysavailableGlobal['Quarta-Feira'],
-              value: weekdaysGlobal['Quarta-Feira'],
-              onChanged: (value) {
-                setState(() {
-                  weekdaysGlobal['Quarta-Feira'] = value!;
-                });
-              }),
-          CheckboxListTile(
-              title: const Text('Quinta-Feira'),
-              controlAffinity: ListTileControlAffinity.leading,
-              enabled: weekdaysavailableGlobal['Quinta-Feira'],
-              value: weekdaysGlobal['Quinta-Feira'],
-              onChanged: (value) {
-                setState(() {
-                  weekdaysGlobal['Quinta-Feira'] = value!;
-                });
-              }),
-          CheckboxListTile(
-              title: const Text('Sexta-Feira'),
-              controlAffinity: ListTileControlAffinity.leading,
-              enabled: weekdaysavailableGlobal['Sexta-Feira'],
-              value: weekdaysGlobal['Sexta-Feira'],
-              onChanged: (value) {
-                setState(() {
-                  weekdaysGlobal['Sexta-Feira'] = value!;
-                });
-              }),
-          CheckboxListTile(
-              title: const Text('Sábado'),
-              controlAffinity: ListTileControlAffinity.leading,
-              enabled: weekdaysavailableGlobal['Sábado'],
-              value: weekdaysGlobal['Sábado'],
-              onChanged: (value) {
-                setState(() {
-                  weekdaysGlobal['Sábado'] = value!;
-                });
-              }),
-        ],
-      );
-    });
+    return FutureBuilder<List<ScheduleModel>>(
+      future: weekdaysFuture,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const CircularProgressIndicator();
+        } else if (snapshot.hasError) {
+          return Text('Erro: ${snapshot.error}');
+        } else if (snapshot.hasData) {
+          List<ScheduleModel> weekdays = snapshot.data!;
+          return Column(
+            children: weekdays.map((day) {
+              return SizedBox(
+                height: MediaQuery.of(context).size.height * 0.06,
+                child: CheckboxListTile(
+                  title: Text(day.weekday),
+                  value: selectedWorkXWeekdays.contains(day.id),
+                  onChanged: (bool? value) {
+                    setState(() {
+                      if (value != null && value) {
+                        selectedWorkXWeekdays.add(day.id);
+                        print(selectedWorkXWeekdays);
+                      } else {
+                        selectedWorkXWeekdays.remove(day.id);
+                        print(selectedWorkXWeekdays);
+                      }
+                    });
+                  },
+                ),
+              );
+            }).toList(),
+          );
+        } else {
+          return const Text('Nenhum dado disponível');
+        }
+      },
+    );
   }
 }

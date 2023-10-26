@@ -4,6 +4,7 @@ import 'package:app_centro_espirita/features/login_signin/presentation/login_pag
 import 'package:app_centro_espirita/features/login_signin/authentication/firebase_auth_methods.dart';
 import 'package:app_centro_espirita/features/home_page/presentation/settings_page.dart';
 import 'package:app_centro_espirita/features/login_signin/authentication/firebase_options.dart';
+import 'package:app_centro_espirita/features/work_group_page/model/model.dart';
 import 'package:app_centro_espirita/features/work_group_page/presentation/work_group_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -42,6 +43,7 @@ class AppModule extends Module {
   List<Bind> get binds => [
         Bind.lazySingleton((i) => const LoginScreen()),
         Bind.lazySingleton((i) => FirebaseAuthMethods(FirebaseAuth.instance)),
+        Bind.lazySingleton((i) => SelectedWeekdays()),
       ];
 
   @override

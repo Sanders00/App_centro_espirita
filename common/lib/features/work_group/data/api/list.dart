@@ -32,19 +32,27 @@ class WorkGroupListRemoteAPIDataSource {
   Future<WorkGroupModel?> postWorkGroups({
     required String name,
     required String desc,
+    required List<dynamic> workXWeekdays,
   }) async {
+    var jsonInsert = jsonEncode(<dynamic, dynamic>{
+      'name': name,
+      'desc': desc,
+      'work_groupXweekdays': {
+        "data": workXWeekdays
+            .map((e) => {
+                  "weekday_id": e,
+                })
+            .toList(),
+      }
+    });
     final response = await http.post(
-      Uri.parse(
-        'http://192.168.56.1:4000/work_groups',
-      ),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<dynamic, dynamic>{
-        'name': name,
-        'desc': desc,
-      }),
-    );
+        Uri.parse(
+          'http://192.168.56.1:4000/work_groups',
+        ),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonInsert);
 
     if (response.statusCode == 200) {
       return WorkGroupModel.fromJson(json.decode(response.body));
