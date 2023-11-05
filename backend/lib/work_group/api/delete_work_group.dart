@@ -12,12 +12,15 @@ Future<Response> deleteWorkGroup(
   final hasuraConnect = injector.get<HasuraConnect>();
 
   var hasuraResponse = await hasuraConnect.mutation(r'''
-      mutation DeleteWorkGroup($id: Int!) {
-        delete_work_group_by_pk(work_group_id: $id) {
+      mutation DeleteWorkGroup($work_group_id: Int!) {
+        delete_work_groupXweekdays(where: {work_group_id: {_eq: $work_group_id}}) {
+          affected_rows
+        }
+        delete_work_group_by_pk(work_group_id: $work_group_id) {
           work_group_id
         }
       }
-      ''', variables: {"id": arguments.data['id']});
+      ''', variables: {"work_group_id": arguments.data['work_group_id']});
 
   return Response.ok(jsonEncode(hasuraResponse['data']));
 }

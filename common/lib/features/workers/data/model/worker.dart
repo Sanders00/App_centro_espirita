@@ -19,6 +19,16 @@ class WorkerModel extends WorkerEntity {
     );
   }
 
+  factory WorkerModel.fromJsonWithId(Map<String, dynamic> json) {
+    return WorkerModel(
+      id: json["worker"]['worker_id'] as int,
+      name: json["worker"]['name'],
+      phone: json["worker"]['phone'],
+      email: json["worker"]['email'],
+      whatsapp: json["worker"]['whatsapp'],
+    );
+  }
+
   Map<String, dynamic> toJson() {
     return {
       'worker_id': id,

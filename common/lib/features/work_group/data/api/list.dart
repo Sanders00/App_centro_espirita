@@ -64,6 +64,9 @@ class WorkGroupListRemoteAPIDataSource {
   Future deleteWorkGroups({
     required int id,
   }) async {
+    var jsonInsert = jsonEncode(<dynamic, dynamic>{
+      'work_group_id': id,
+    });
     final response = await http.delete(
       Uri.parse(
         'http://192.168.56.1:4000/work_groups',
@@ -71,11 +74,8 @@ class WorkGroupListRemoteAPIDataSource {
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: jsonEncode(<dynamic, dynamic>{
-        'id': id,
-      }),
+      body: jsonInsert,
     );
-
     if (response.statusCode == 200) {
       return;
     } else {
@@ -87,7 +87,20 @@ class WorkGroupListRemoteAPIDataSource {
     required int id,
     required String name,
     required String desc,
+    required List<dynamic> workXWeekdays,
   }) async {
+    var jsonInsert = jsonEncode(<dynamic, dynamic>{
+      'work_group_id': id,
+      'name': name,
+      'desc': desc,
+      'work_groupXweekdays': workXWeekdays
+          .map((e) => {
+                "work_group_id": id,
+                "weekday_id": e,
+              })
+          .toList(),
+    });
+
     final response = await http.put(
       Uri.parse(
         'http://192.168.56.1:4000/work_groups',
@@ -95,11 +108,7 @@ class WorkGroupListRemoteAPIDataSource {
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: jsonEncode(<dynamic, dynamic>{
-        'id': id,
-        'name': name,
-        'desc': desc,
-      }),
+      body: jsonInsert,
     );
 
     if (response.statusCode == 200) {

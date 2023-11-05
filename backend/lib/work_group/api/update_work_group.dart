@@ -12,15 +12,23 @@ Future<Response> updateWorkGroup(
   final hasuraConnect = injector.get<HasuraConnect>();
 
   return hasuraConnect.mutation(r'''
-  mutation UpdateWorkGroup($_eq: Int!, $name: String!, $desc: String!) {
-    update_work_group(where: {work_group_id: {_eq: $_eq}}, _set: {name: $name, desc: $desc}) {
+  mutation UpdateWorkGroup($work_group_id: Int!, $name: String = "", $desc: String = "",$work_groupXweekdays:[work_groupXweekdays_insert_input!]!) {
+    update_work_group_by_pk(pk_columns: {work_group_id: $work_group_id}, _set: {name: $name, desc: $desc}) {
+      name
+      desc
+    }
+    delete_work_groupXweekdays(where: {work_group_id: {_eq: $work_group_id}}) {
+      affected_rows
+    }
+    insert_work_groupXweekdays(objects: $work_groupXweekdays) {
       affected_rows
     }
   }
       ''', variables: {
-    '_eq': arguments.data['id'],
+    'work_group_id': arguments.data['work_group_id'],
     'name': arguments.data['name'],
     'desc': arguments.data['desc'] ?? '',
+    'work_groupXweekdays': arguments.data['work_groupXweekdays']
   }).then(
     (value) {
       return Response.ok(

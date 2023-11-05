@@ -1,4 +1,3 @@
-
 import 'package:app_centro_espirita/features/work_group_page/model/model.dart';
 import 'package:common/features/schedule/data/api/list.dart';
 import 'package:common/features/schedule/data/model/schedule.dart';
@@ -14,7 +13,8 @@ class WorkXWeekdaysCheckBoxes extends StatefulWidget {
 }
 
 class _WorkXWeekdaysCheckBoxesState extends State<WorkXWeekdaysCheckBoxes> {
-  List<dynamic> selectedWorkXWeekdays = Modular.get<SelectedWeekdays>().selectedWorkXWeekdays;
+  List<dynamic> selectedWorkXWeekdays =
+      Modular.get<SelectedWeekdays>().selectedWorkXWeekdays;
 
   final Future<List<ScheduleModel>> weekdaysFuture =
       ScheduleListRemoteAPIDataSource().getWeekdays();
@@ -41,10 +41,8 @@ class _WorkXWeekdaysCheckBoxesState extends State<WorkXWeekdaysCheckBoxes> {
                     setState(() {
                       if (value != null && value) {
                         selectedWorkXWeekdays.add(day.id);
-                        print(selectedWorkXWeekdays);
                       } else {
                         selectedWorkXWeekdays.remove(day.id);
-                        print(selectedWorkXWeekdays);
                       }
                     });
                   },

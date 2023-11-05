@@ -6,6 +6,13 @@ class ScheduleModel extends ScheduleEntity {
     required super.weekday,
   });
 
+  factory ScheduleModel.fromJsonWeekdayWithId(Map<String, dynamic> json) {
+    return ScheduleModel(
+      id: json['weekday']['weekdays_id'] as int,
+      weekday: json['weekday']['weekday_name'] as String,
+    );
+  }
+
   factory ScheduleModel.fromJson(Map<String, dynamic> json) {
     return ScheduleModel(
       id: json['weekdays_id'] as int,
