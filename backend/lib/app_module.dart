@@ -1,7 +1,9 @@
 import 'package:dart_server/activities/resource.dart';
+import 'package:dart_server/activities_schedule/resource.dart';
 import 'package:dart_server/schedule/resource.dart';
 import 'package:dart_server/work_group/resource.dart';
 import 'package:dart_server/work_groupXschedule/resource.dart';
+import 'package:dart_server/worker_activities/resource.dart';
 import 'package:dart_server/worker_work/resource.dart';
 import 'package:dart_server/workers/resource.dart';
 import 'package:hasura_connect/hasura_connect.dart' hide Response;
@@ -33,5 +35,7 @@ class AppModule extends Module {
         Route.resource(WorkGroupXScheduleResource()),
         Route.resource(WorkerXWorkResource()),
         Route.resource(ActivitiesResource()),
+        Route.resource(ActivitiesXScheduleResource()),
+        Route.resource(WorkerXActivitiesResource()),
       ];
 }

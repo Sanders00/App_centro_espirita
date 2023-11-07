@@ -61,7 +61,7 @@ class ActivitiesListRemoteAPIDataSource {
     }
   }
 
-    Future deleteActivities({
+  Future deleteActivities({
     required int id,
   }) async {
     var jsonInsert = jsonEncode(<dynamic, dynamic>{
@@ -80,6 +80,39 @@ class ActivitiesListRemoteAPIDataSource {
       return;
     } else {
       throw Exception('Failed to delete activities');
+    }
+  }
+
+  Future<ActivitiesModel?> updateActivities({
+    required int id,
+    required String name,
+    required String desc,
+    required List<dynamic> actXWeekdays,
+  }) async {
+    var jsonInsert = jsonEncode(<dynamic, dynamic>{
+      'activities_id': id,
+      'name': name,
+      'desc': desc,
+      'activitiesXweekdays': actXWeekdays
+          .map((e) => {
+                'activities_id': id,
+                "weekday_id": e,
+              })
+          .toList(),
+    });
+    final response = await http.put(
+        Uri.parse(
+          'http://192.168.56.1:4000/activities',
+        ),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonInsert);
+
+    if (response.statusCode == 200) {
+      return ActivitiesModel.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('Failed to load activities');
     }
   }
 }

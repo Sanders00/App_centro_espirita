@@ -14,7 +14,6 @@ class ActivitiesWeekdaysModel extends ActivitiesWeekdaysEntity {
       weekdaysId: json['weekdaysId'] as int,
     );
   }
-
   Map<String, dynamic> toJson() {
     return {
       'id': id,

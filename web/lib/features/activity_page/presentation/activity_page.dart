@@ -2,6 +2,7 @@
 
 import 'package:app_centro_espirita/features/work_group_page/model/model.dart';
 import 'package:app_centro_espirita/features/work_group_page/widgets/dias_semana_custom_checkbox.dart';
+import 'package:app_centro_espirita/features/worker_activities_page/presentation/workers.dart';
 import 'package:common/features/activities/data/model/activities.dart';
 import 'package:common/features/activities/data/api/list.dart';
 import 'package:flutter/material.dart';
@@ -205,6 +206,13 @@ class _CustomCustomActivityTileTileState extends State<CustomActivityTile> {
                 const WorkXWeekdaysCheckBoxes(),
                 CustomButton(
                     function: () {
+                      ActivitiesListRemoteAPIDataSource().updateActivities(
+                        name: activityNameController.text,
+                        desc: descController.text,
+                        id: activitiesModel.id,
+                        actXWeekdays: Modular.get<SelectedWeekdays>()
+                            .selectedWorkXWeekdays,
+                      );
                       setState(
                         () {
                           activityNameController.clear();
@@ -250,7 +258,15 @@ class _CustomCustomActivityTileTileState extends State<CustomActivityTile> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => WorkerActivitiesCrudPage(
+                          activityId: widget.activitiesModel.id,
+                        ),
+                      ),
+                    );
+                  },
                   style: const ButtonStyle(
                       backgroundColor:
                           MaterialStatePropertyAll<Color>(Colors.green)),
@@ -260,7 +276,9 @@ class _CustomCustomActivityTileTileState extends State<CustomActivityTile> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    _updateActivityDialog(widget.activitiesModel);
+                  },
                   child: const Icon(Icons.edit),
                 ),
               ),
