@@ -1,3 +1,4 @@
+import 'package:dart_server/activities/resource.dart';
 import 'package:dart_server/schedule/resource.dart';
 import 'package:dart_server/work_group/resource.dart';
 import 'package:dart_server/work_groupXschedule/resource.dart';
@@ -30,6 +31,7 @@ class AppModule extends Module {
         Route.resource(WorkGroupResource()),
         Route.resource(ScheduleResource()),
         Route.resource(WorkGroupXScheduleResource()),
-        Route.resource(WorkerXWorkResource())
+        Route.resource(WorkerXWorkResource()),
+        Route.resource(ActivitiesResource()),
       ];
 }

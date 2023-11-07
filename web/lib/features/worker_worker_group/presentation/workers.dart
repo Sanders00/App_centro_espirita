@@ -3,6 +3,7 @@
 import 'package:app_centro_espirita/features/widgets/custom_button.dart';
 import 'package:app_centro_espirita/features/work_group_page/model/model.dart';
 import 'package:app_centro_espirita/features/worker_worker_group/widgets/dias_semana_custom_checkbox.dart';
+import 'package:app_centro_espirita/global.dart';
 import 'package:common/features/workers/data/api/list.dart';
 import 'package:common/features/workers_x_work/data/api/list.dart';
 import 'package:common/features/workers/data/model/worker.dart';
@@ -294,6 +295,71 @@ class CustomInsertedWorkerTile extends StatefulWidget {
 }
 
 class _CustomInsertedWorkerTileState extends State<CustomInsertedWorkerTile> {
+  _updateWorkerToWorkGroupDialog() {
+    return showDialog<void>(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          scrollable: true,
+          title: const Text('Dias Disponíveis'),
+          content: SingleChildScrollView(
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width * 0.2,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: WorkerXWorkXWeekdaysCheckBoxes(
+                        workGroupId: widget.workGroupId),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: CustomButton(
+                        function: () {
+                          WorkerXWorkGroupListRemoteAPIDataSource()
+                              .updateWorkerWorkGroup(
+                                  workerId: widget.worker.id,
+                                  workGroupId: widget.workGroupId,
+                                  availableWeekdays:
+                                      Modular.get<SelectedWeekdays>()
+                                          .selectedWorkXWeekdaysString);
+                          setState(() {
+                            Modular.get<SelectedWeekdays>()
+                                .selectedWorkXWeekdays
+                                .clear();
+                            Modular.get<SelectedWeekdays>()
+                                .selectedWorkXWeekdaysString
+                                .clear();
+                            Navigator.pop(context, setState);
+                          });
+                        },
+                        text: 'Atualizar'),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: CustomButton(
+                        function: () {
+                          Modular.get<SelectedWeekdays>()
+                              .selectedWorkXWeekdays
+                              .clear();
+                          Modular.get<SelectedWeekdays>()
+                              .selectedWorkXWeekdaysString
+                              .clear();
+                          Navigator.pop(context, setState);
+                        },
+                        text: 'Voltar'),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -308,7 +374,7 @@ class _CustomInsertedWorkerTileState extends State<CustomInsertedWorkerTile> {
             Text(widget.worker.phone),
             SizedBox(
               height: 50,
-              width: 100,
+              width: 120,
               child: FutureBuilder<List<String>>(
                 future: WorkerXWorkGroupListRemoteAPIDataSource()
                     .getWorkersAvailableWeekdays(
@@ -319,6 +385,12 @@ class _CustomInsertedWorkerTileState extends State<CustomInsertedWorkerTile> {
                     return const Text("Erro");
                   } else if (snapshot.hasData) {
                     final days = snapshot.data!;
+                    days.sort((first, second) {
+                      final firstIndex = positionsOfWeekDaysGlobal[first] ?? 8;
+                      final secondIndex =
+                          positionsOfWeekDaysGlobal[second] ?? 8;
+                      return firstIndex.compareTo(secondIndex);
+                    });
                     return ListView.builder(
                       padding: const EdgeInsets.all(5),
                       itemCount: days.length,
@@ -341,6 +413,15 @@ class _CustomInsertedWorkerTileState extends State<CustomInsertedWorkerTile> {
               ),
             ),
             Row(children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ElevatedButton(
+                  onPressed: () {
+                    _updateWorkerToWorkGroupDialog();
+                  },
+                  child: const Icon(Icons.edit),
+                ),
+              ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ElevatedButton(

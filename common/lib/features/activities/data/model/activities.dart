@@ -4,12 +4,14 @@ class ActivitiesModel extends ActivitiesEntity {
   ActivitiesModel({
     required super.id,
     required super.name,
+    required super.desc,
   });
 
   factory ActivitiesModel.fromJson(Map<String, dynamic> json) {
     return ActivitiesModel(
-      id: json['id'] as int,
+      id: json['activities_id'] as int,
       name: json['name'],
+      desc: json['desc'],
     );
   }
 
@@ -17,6 +19,7 @@ class ActivitiesModel extends ActivitiesEntity {
     return {
       'id': id,
       'name': name,
+      'desc': desc,
     };
   }
 }

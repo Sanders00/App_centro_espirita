@@ -106,4 +106,30 @@ class WorkerXWorkGroupListRemoteAPIDataSource {
       throw Exception('Failed to delete workers');
     }
   }
+
+  Future<WorkerModel?> updateWorkerWorkGroup({
+    required int workGroupId,
+    required int workerId,
+    required List<dynamic> availableWeekdays,
+  }) async {
+    final response = await http.put(
+      Uri.parse(
+        'http://192.168.56.1:4000/Worker_X_Work_Group',
+      ),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<dynamic, dynamic>{
+        'work_group_id': workGroupId,
+        'worker_id': workerId,
+        'available_days': availableWeekdays,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      return WorkerModel.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('Failed to update workers');
+    }
+  }
 }

@@ -1,4 +1,5 @@
-import 'package:app_centro_espirita/features/home_page/presentation/dashboard_page.dart';
+//import 'package:app_centro_espirita/features/home_page/presentation/dashboard_page.dart';
+import 'package:app_centro_espirita/features/activity_page/presentation/activity_page.dart';
 import 'package:app_centro_espirita/features/login_signin/presentation/forgot_passowrd_page.dart';
 import 'package:app_centro_espirita/features/login_signin/presentation/login_page.dart';
 import 'package:app_centro_espirita/features/login_signin/authentication/firebase_auth_methods.dart';
@@ -49,15 +50,16 @@ class AppModule extends Module {
   @override
   List<ModularRoute> get routes => [
         ChildRoute('/',
-            child: (context, args) => streamBuilderRoute(const Dashboard())),
+            child: (context, args) =>
+                streamBuilderRoute(const WorkerCrudPage())),
         ChildRoute(
           '/Criar-Conta',
           child: (context, args) => const CreateAccountScreen(),
         ),
-        ChildRoute(
-          '/Dashboard',
-          child: (context, args) => streamBuilderRoute(const Dashboard()),
-        ),
+        // ChildRoute(
+        //   '/Dashboard',
+        //   child: (context, args) => streamBuilderRoute(const Dashboard()),
+        // ),
         ChildRoute(
           '/Configurações',
           child: (context, args) => streamBuilderRoute(const SettingsPage()),
@@ -65,6 +67,10 @@ class AppModule extends Module {
         ChildRoute(
           '/Trabalhadores',
           child: (context, args) => streamBuilderRoute(const WorkerCrudPage()),
+        ),
+        ChildRoute(
+          '/Atividades',
+          child: (context, args) => streamBuilderRoute(const ActivityCrudPage()),
         ),
         ChildRoute(
           '/Grupo-de-Estudos',
