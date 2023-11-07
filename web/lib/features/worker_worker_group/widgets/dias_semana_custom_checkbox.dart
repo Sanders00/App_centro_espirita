@@ -19,6 +19,8 @@ class _WorkerXWorkXWeekdaysCheckBoxesState
 
   List<dynamic> selectedWorkXWeekdays =
       Modular.get<SelectedWeekdays>().selectedWorkXWeekdays;
+  List<dynamic> selectedWorkXWeekdaysString =
+      Modular.get<SelectedWeekdays>().selectedWorkXWeekdaysString;
 
   final Future<List<ScheduleModel>> weekdaysFuture =
       ScheduleListRemoteAPIDataSource().getWeekdays();
@@ -52,8 +54,10 @@ class _WorkerXWorkXWeekdaysCheckBoxesState
                     setState(() {
                       if (value != null && value) {
                         selectedWorkXWeekdays.add(day.id);
+                        selectedWorkXWeekdaysString.add(day.weekday);
                       } else {
                         selectedWorkXWeekdays.remove(day.id);
+                        selectedWorkXWeekdaysString.remove(day.weekday);
                       }
                     });
                   },

@@ -141,6 +141,7 @@ class _WorkerWorkGroupCrudPageState extends State<WorkerWorkGroupCrudPage> {
                               itemCount: workers.length,
                               itemBuilder: (context, index) {
                                 return CustomInsertedWorkerTile(
+                                  workGroupId: widget.workGroupId,
                                   worker: workers[index],
                                   context: context,
                                 );
@@ -197,7 +198,26 @@ class _CustomWorkerTileState extends State<CustomWorkerTile> {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: CustomButton(function: () {}, text: 'Adicionar'),
+                    child: CustomButton(
+                        function: () {
+                          WorkerXWorkGroupListRemoteAPIDataSource()
+                              .postWorkerWorkGroup(
+                            workerId: widget.worker.id,
+                            workGroupId: widget.workGroupId,
+                            availableWeekdays: Modular.get<SelectedWeekdays>()
+                                .selectedWorkXWeekdaysString,
+                          );
+                          setState(() {
+                            Modular.get<SelectedWeekdays>()
+                                .selectedWorkXWeekdays
+                                .clear();
+                            Modular.get<SelectedWeekdays>()
+                                .selectedWorkXWeekdaysString
+                                .clear();
+                            Navigator.pop(context, setState);
+                          });
+                        },
+                        text: 'Adicionar'),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -205,6 +225,9 @@ class _CustomWorkerTileState extends State<CustomWorkerTile> {
                         function: () {
                           Modular.get<SelectedWeekdays>()
                               .selectedWorkXWeekdays
+                              .clear();
+                          Modular.get<SelectedWeekdays>()
+                              .selectedWorkXWeekdaysString
                               .clear();
                           Navigator.pop(context, setState);
                         },
@@ -257,9 +280,14 @@ class _CustomWorkerTileState extends State<CustomWorkerTile> {
 
 class CustomInsertedWorkerTile extends StatefulWidget {
   const CustomInsertedWorkerTile(
-      {super.key, required, required this.context, required this.worker});
+      {super.key,
+      required,
+      required this.context,
+      required this.worker,
+      required this.workGroupId});
   final BuildContext context;
   final WorkerModel worker;
+  final int workGroupId;
   @override
   State<CustomInsertedWorkerTile> createState() =>
       _CustomInsertedWorkerTileState();
@@ -278,11 +306,48 @@ class _CustomInsertedWorkerTileState extends State<CustomInsertedWorkerTile> {
             Text(widget.worker.name),
             Text(widget.worker.email),
             Text(widget.worker.phone),
+            SizedBox(
+              height: 50,
+              width: 100,
+              child: FutureBuilder<List<String>>(
+                future: WorkerXWorkGroupListRemoteAPIDataSource()
+                    .getWorkersAvailableWeekdays(
+                        workGroupId: widget.workGroupId,
+                        workerId: widget.worker.id),
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    return const Text("Erro");
+                  } else if (snapshot.hasData) {
+                    final days = snapshot.data!;
+                    return ListView.builder(
+                      padding: const EdgeInsets.all(5),
+                      itemCount: days.length,
+                      itemBuilder: (context, index) {
+                        return Row(
+                          children: [
+                            const Icon(
+                              Icons.circle,
+                              size: 10,
+                            ),
+                            Text(days[index])
+                          ],
+                        );
+                      },
+                    );
+                  } else {
+                    return const CircularProgressIndicator();
+                  }
+                },
+              ),
+            ),
             Row(children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ElevatedButton(
-                  onPressed: () async {},
+                  onPressed: () async {
+                    WorkerXWorkGroupListRemoteAPIDataSource()
+                        .deleteWorkerWorkGroup(id: widget.worker.id);
+                  },
                   style: const ButtonStyle(
                       backgroundColor:
                           MaterialStatePropertyAll<Color>(Colors.red)),

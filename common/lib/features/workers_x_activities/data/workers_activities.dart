@@ -1,28 +1,28 @@
-import 'package:common/features/workers_x_work/domain/worker_x_work.dart';
+import 'package:common/features/workers_x_activities/domain/workers_activities.dart';
 
-class WorkerXWorkModel extends WorkerXWorkEntity {
-  WorkerXWorkModel({
+class WorkersActivitiesModel extends WorkersActivitiesEntity {
+  WorkersActivitiesModel({
     required super.id,
     required super.workerId,
-    required super.workGroupId,
+    required super.activityId,
     required super.availableWeekdays,
   });
 
-  factory WorkerXWorkModel.fromJson(Map<String, dynamic> json) {
-    return WorkerXWorkModel(
-      id: json['id'] as int,
-      workerId: json['workerId'] as int,
-      workGroupId: json['workGroupId'] as int,
-      availableWeekdays: json['availableWeekdays'] as List<String>,
+  factory WorkersActivitiesModel.fromJson(Map<String, dynamic> json) {
+    return WorkersActivitiesModel(
+      id: json['workerXactivities_id'] as int,
+      workerId: json['worker_id'] as int,
+      activityId: json['activitie_id'] as int,
+      availableWeekdays: json['available_days'] as List<String>,
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
-      'workerId': workerId,
-      'workGroupId': workGroupId,
-      'availableWeekdays': availableWeekdays,
+      'workerXactivities_id': id,
+      'worker_id': workerId,
+      'activitie_id': activityId,
+      'available_days': availableWeekdays,
     };
   }
 }

@@ -10,10 +10,10 @@ class WokerXWorkModel extends WorkerXWorkEntity {
 
   factory WokerXWorkModel.fromJson(Map<String, dynamic> json) {
     return WokerXWorkModel(
-      id: json['id'] as int,
-      workerId: json['workerId'] as int,
-      workGroupId: json['workGroupId'] as int,
-      availableWeekdays: json['availableWeekdays'] as List<String>,
+      id: json['workerXwork_id'] as int,
+      workerId: json['worker_id'],
+      workGroupId: json['work_group_id'],
+      availableWeekdays: json['available_days'],
     );
   }
 
