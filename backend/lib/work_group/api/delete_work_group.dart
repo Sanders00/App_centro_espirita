@@ -16,9 +16,6 @@ Future<Response> deleteWorkGroup(
         delete_work_groupXweekdays(where: {work_group_id: {_eq: $work_group_id}}) {
           affected_rows
         }
-        delete_workerXwork_group(where: {work_group_id: {_eq: $work_group_id}}) {
-        affected_rows
-      }
         delete_work_group_by_pk(work_group_id: $work_group_id) {
           work_group_id
         }

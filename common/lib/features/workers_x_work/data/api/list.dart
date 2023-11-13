@@ -48,9 +48,7 @@ class WorkerXWorkGroupListRemoteAPIDataSource {
       if (response.statusCode == 200 && response.body.isNotEmpty) {
         var bodyResult = json.decode(response.body);
         bodyResult['workerXwork_group'].forEach((element) {
-          element['available_days'].forEach((element) {
-            result.add(element);
-          });
+          result.add(element['work_groupXweekday']['weekday']['weekday_name']);
         });
       }
     } on Exception catch (e) {
@@ -60,10 +58,12 @@ class WorkerXWorkGroupListRemoteAPIDataSource {
   }
 
   Future<WorkerModel?> postWorkerWorkGroup({
-    required int workGroupId,
     required int workerId,
-    required List<dynamic> availableWeekdays,
+    required List<dynamic> workgXweekId,
   }) async {
+    var jsonInsert = workgXweekId
+        .map((e) => {'worker_id': workerId, 'workgXweekdays_id': e})
+        .toList();
     final response = await http.post(
       Uri.parse(
         'http://192.168.56.1:4000/Worker_X_Work_Group',
@@ -72,13 +72,12 @@ class WorkerXWorkGroupListRemoteAPIDataSource {
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<dynamic, dynamic>{
-        'work_group_id': workGroupId,
-        'worker_id': workerId,
-        'available_days': availableWeekdays,
+        'objects': jsonInsert,
       }),
     );
 
     if (response.statusCode == 200) {
+      print(response.body);
       return WorkerModel.fromJson(json.decode(response.body));
     } else {
       throw Exception('Failed to load workers');

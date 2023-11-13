@@ -70,7 +70,8 @@ class AppModule extends Module {
         ),
         ChildRoute(
           '/Atividades',
-          child: (context, args) => streamBuilderRoute(const ActivityCrudPage()),
+          child: (context, args) =>
+              streamBuilderRoute(const ActivityCrudPage()),
         ),
         ChildRoute(
           '/Grupo-de-Estudos',
@@ -95,6 +96,9 @@ class AppWidget extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       routeInformationParser: Modular.routeInformationParser,
       routerDelegate: Modular.routerDelegate,
+      theme: ThemeData(
+        primarySwatch: Colors.green,
+      ),
     );
   }
 }

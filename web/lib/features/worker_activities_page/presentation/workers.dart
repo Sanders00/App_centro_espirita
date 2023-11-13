@@ -1,5 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:math';
+
 import 'package:app_centro_espirita/features/widgets/custom_button.dart';
 import 'package:app_centro_espirita/features/work_group_page/model/model.dart';
 import 'package:app_centro_espirita/features/worker_activities_page/widgets/dias_semana_custom_checkbox.dart';
@@ -19,6 +21,8 @@ class WorkerActivitiesCrudPage extends StatefulWidget {
 }
 
 class _WorkerActivitiesCrudPageState extends State<WorkerActivitiesCrudPage> {
+  TextEditingController searchWorkerController = TextEditingController();
+  TextEditingController searchRegisteredController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,134 +31,378 @@ class _WorkerActivitiesCrudPageState extends State<WorkerActivitiesCrudPage> {
         backgroundColor: Colors.green,
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            const Text(
-              'Inserir Trabalhadores',
-              style: TextStyle(fontSize: 30),
-            ),
             Container(
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(width: 2)),
-              width: MediaQuery.of(context).size.width * 0.7,
-              height: MediaQuery.of(context).size.height * 0.35,
+              width: MediaQuery.of(context).size.width * 0.46,
+              height: MediaQuery.of(context).size.height * 0.85,
+              decoration: BoxDecoration(color: Colors.white, boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 5,
+                  blurRadius: 7,
+                  offset: const Offset(0, 3),
+                )
+              ]),
               child: Column(
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: Container(
-                      decoration: const BoxDecoration(
-                        borderRadius:
-                            BorderRadius.vertical(top: Radius.circular(20)),
-                        color: Colors.green,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                            left: MediaQuery.of(context).size.width * 0.025),
+                        child: const Text(
+                          'Inserir Trabalhadores',
+                          style: TextStyle(
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
-                      child: const Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    ),
+                    SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.42,
+                        child: const Divider()),
+                    SizedBox(
+                      //padding: const EdgeInsets.all(8),
+                      width: MediaQuery.of(context).size.width * 0.42,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('Foto'),
-                          Text('Nome'),
-                          Text('Email'),
-                          Text('Telefone'),
-                          Text(''),
-                          Text('')
+                          Container(
+                            padding: const EdgeInsets.symmetric(vertical: 8),
+                            width: 200,
+                            height: 50,
+                            child: TextField(
+                                onChanged: (value) => setState(() {}),
+                                controller: searchWorkerController,
+                                decoration: const InputDecoration(
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Colors.green, width: 2),
+                                  ),
+                                  border: OutlineInputBorder(),
+                                  labelText: 'Procurar Trabalhador',
+                                  suffixIcon: Icon(Icons.search),
+                                )),
+                          ),
                         ],
                       ),
                     ),
-                  ),
-                  Expanded(
-                    flex: 9,
-                    child: FutureBuilder<List<WorkerModel>>(
-                        future: WorkerListRemoteAPIDataSource().getWorkers(),
-                        builder: (context, snapshot) {
-                          if (snapshot.hasError) {
-                            return const Text("Erro");
-                          } else if (snapshot.hasData) {
-                            final workers = snapshot.data!;
-                            return ListView.builder(
-                              padding: const EdgeInsets.all(5),
-                              itemCount: workers.length,
-                              itemBuilder: (context, index) {
-                                return CustomWorkerTile(
-                                  activityId: widget.activityId,
-                                  worker: workers[index],
-                                  context: context,
-                                );
-                              },
-                            );
-                          } else {
-                            return const CircularProgressIndicator();
-                          }
-                        }),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            const Text(
-              'Gerenciar Trabalhadores',
-              style: TextStyle(fontSize: 30),
-            ),
-            Container(
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(width: 2)),
-              width: MediaQuery.of(context).size.width * 0.7,
-              height: MediaQuery.of(context).size.height * 0.35,
-              child: Column(
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: Container(
-                      decoration: const BoxDecoration(
-                        borderRadius:
-                            BorderRadius.vertical(top: Radius.circular(20)),
-                        color: Colors.green,
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
                       ),
-                      child: const Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      width: MediaQuery.of(context).size.width * 0.42,
+                      height: MediaQuery.of(context).size.height * 0.7,
+                      child: Column(
                         children: [
-                          Text('Foto'),
-                          Text('Nome'),
-                          Text('Email'),
-                          Text('Telefone'),
-                          Text(''),
-                          Text('')
+                          Expanded(
+                            flex: 1,
+                            child: Container(
+                              decoration: const BoxDecoration(
+                                borderRadius: BorderRadius.vertical(
+                                    top: Radius.circular(5)),
+                                color: Colors.green,
+                              ),
+                              child: const Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  Expanded(
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          'Foto',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          'Nome',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          'Email',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          'Telefone',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          'Ações',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            flex: 9,
+                            child: FutureBuilder<List<WorkerModel>>(
+                                future: WorkerListRemoteAPIDataSource()
+                                    .getWorkers(),
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasError) {
+                                    return const Text("Erro");
+                                  } else if (snapshot.hasData) {
+                                    final workers = snapshot.data!;
+                                    return ListView.builder(
+                                      padding: const EdgeInsets.all(5),
+                                      itemCount: workers.length,
+                                      itemBuilder: (context, index) {
+                                        return CustomWorkerTile(
+                                          activityId: widget.activityId,
+                                          worker: workers[index],
+                                          context: context,
+                                        );
+                                      },
+                                    );
+                                  } else {
+                                    return const CircularProgressIndicator();
+                                  }
+                                }),
+                          ),
                         ],
                       ),
                     ),
-                  ),
-                  Expanded(
-                    flex: 9,
-                    child: FutureBuilder<List<WorkerModel>>(
-                        future: WorkerXActivitiesListRemoteAPIDataSource()
-                            .getWorkersXActivities(id: widget.activityId),
-                        builder: (context, snapshot) {
-                          if (snapshot.hasError) {
-                            return const Text("Erro");
-                          } else if (snapshot.hasData) {
-                            final workers = snapshot.data!;
-                            return ListView.builder(
-                              padding: const EdgeInsets.all(5),
-                              itemCount: workers.length,
-                              itemBuilder: (context, index) {
-                                return CustomInsertedWorkerTile(
-                                  activityId: widget.activityId,
-                                  worker: workers[index],
-                                  context: context,
-                                );
-                              },
-                            );
-                          } else {
-                            return const CircularProgressIndicator();
-                          }
-                        }),
-                  ),
-                ],
-              ),
+                  ]),
+            ),
+            Container(
+              width: MediaQuery.of(context).size.width * 0.46,
+              height: MediaQuery.of(context).size.height * 0.85,
+              decoration: BoxDecoration(color: Colors.white, boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 5,
+                  blurRadius: 7,
+                  offset: const Offset(0, 3),
+                )
+              ]),
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                            left: MediaQuery.of(context).size.width * 0.025),
+                        child: const Text(
+                          'Gerenciar Trabalhadores',
+                          style: TextStyle(
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.42,
+                        child: const Divider()),
+                    SizedBox(
+                      //padding: const EdgeInsets.all(8),
+                      width: MediaQuery.of(context).size.width * 0.42,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.symmetric(vertical: 8),
+                            width: 200,
+                            height: 50,
+                            child: TextField(
+                                onChanged: (value) => setState(() {}),
+                                controller: searchRegisteredController,
+                                decoration: const InputDecoration(
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Colors.green, width: 2),
+                                  ),
+                                  border: OutlineInputBorder(),
+                                  labelText: 'Procurar Trabalhador',
+                                  suffixIcon: Icon(Icons.search),
+                                )),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      width: MediaQuery.of(context).size.width * 0.42,
+                      height: MediaQuery.of(context).size.height * 0.7,
+                      child: Column(
+                        children: [
+                          Expanded(
+                            flex: 1,
+                            child: Container(
+                              decoration: const BoxDecoration(
+                                borderRadius: BorderRadius.vertical(
+                                    top: Radius.circular(5)),
+                                color: Colors.green,
+                              ),
+                              child: const Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  Expanded(
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          'Foto',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          'Nome',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          'Email',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          'Telefone',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          'Dias disponiveis',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Expanded(
+                                    flex: 2,
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          'Ações',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            flex: 9,
+                            child: FutureBuilder<List<WorkerModel>>(
+                                future:
+                                    WorkerXActivitiesListRemoteAPIDataSource()
+                                        .getWorkersXActivities(
+                                            id: widget.activityId),
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasError) {
+                                    return const Text("Erro");
+                                  } else if (snapshot.hasData) {
+                                    final workers = snapshot.data!;
+                                    return ListView.builder(
+                                      padding: const EdgeInsets.all(5),
+                                      itemCount: workers.length,
+                                      itemBuilder: (context, index) {
+                                        return CustomInsertedWorkerTile(
+                                          activityId: widget.activityId,
+                                          worker: workers[index],
+                                          context: context,
+                                        );
+                                      },
+                                    );
+                                  } else {
+                                    return const CircularProgressIndicator();
+                                  }
+                                }),
+                          ),
+                        ],
+                      ),
+                    )
+                  ]),
             )
           ],
         ),
@@ -203,17 +451,13 @@ class _CustomWorkerTileState extends State<CustomWorkerTile> {
                         function: () {
                           WorkerXActivitiesListRemoteAPIDataSource()
                               .postWorkerActivities(
-                                  activityId: widget.activityId,
-                                  workerId: widget.worker.id,
-                                  availableWeekdays:
-                                      Modular.get<SelectedWeekdays>()
-                                          .selectedWorkXWeekdaysString);
+                            activityId: widget.activityId,
+                            workerId: widget.worker.id,
+                            availableWeekdays: List.empty(), // todo
+                          );
                           setState(() {
                             Modular.get<SelectedWeekdays>()
                                 .selectedWorkXWeekdays
-                                .clear();
-                            Modular.get<SelectedWeekdays>()
-                                .selectedWorkXWeekdaysString
                                 .clear();
                             Navigator.pop(context, setState);
                           });
@@ -226,9 +470,6 @@ class _CustomWorkerTileState extends State<CustomWorkerTile> {
                         function: () {
                           Modular.get<SelectedWeekdays>()
                               .selectedWorkXWeekdays
-                              .clear();
-                          Modular.get<SelectedWeekdays>()
-                              .selectedWorkXWeekdaysString
                               .clear();
                           Navigator.pop(context, setState);
                         },
@@ -251,24 +492,57 @@ class _CustomWorkerTileState extends State<CustomWorkerTile> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            const CircleAvatar(),
-            Text(widget.worker.name),
-            Text(widget.worker.email),
-            Text(widget.worker.phone),
-            Row(children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ElevatedButton(
-                  onPressed: () {
-                    _postWorkerToActivityDialog();
-                  },
-                  style: const ButtonStyle(
-                      backgroundColor:
-                          MaterialStatePropertyAll<Color>(Colors.green)),
-                  child: const Icon(Icons.add),
-                ),
-              )
-            ]),
+            Expanded(
+              child: Column(
+                children: [
+                  CircleAvatar(
+                    backgroundColor: Color.fromARGB(
+                      255,
+                      Random().nextInt(255),
+                      Random().nextInt(255),
+                      Random().nextInt(255),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: Column(
+                children: [
+                  Text(widget.worker.name),
+                ],
+              ),
+            ),
+            Expanded(
+              child: Column(
+                children: [
+                  Text(widget.worker.email),
+                ],
+              ),
+            ),
+            Expanded(
+              child: Column(
+                children: [
+                  Text(widget.worker.phone),
+                ],
+              ),
+            ),
+            Expanded(
+              child: Column(children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      _postWorkerToActivityDialog();
+                    },
+                    style: const ButtonStyle(
+                        backgroundColor:
+                            MaterialStatePropertyAll<Color>(Colors.green)),
+                    child: const Icon(Icons.add),
+                  ),
+                )
+              ]),
+            ),
           ],
         ),
         const Divider(
@@ -322,15 +596,11 @@ class _CustomInsertedWorkerTileState extends State<CustomInsertedWorkerTile> {
                               .updateWorkerActivities(
                             activityId: widget.activityId,
                             workerId: widget.worker.id,
-                            availableWeekdays: Modular.get<SelectedWeekdays>()
-                                .selectedWorkXWeekdaysString,
+                            availableWeekdays: List.empty(), // todo
                           );
                           setState(() {
                             Modular.get<SelectedWeekdays>()
                                 .selectedWorkXWeekdays
-                                .clear();
-                            Modular.get<SelectedWeekdays>()
-                                .selectedWorkXWeekdaysString
                                 .clear();
                             Navigator.pop(context, setState);
                           });
@@ -343,9 +613,6 @@ class _CustomInsertedWorkerTileState extends State<CustomInsertedWorkerTile> {
                         function: () {
                           Modular.get<SelectedWeekdays>()
                               .selectedWorkXWeekdays
-                              .clear();
-                          Modular.get<SelectedWeekdays>()
-                              .selectedWorkXWeekdaysString
                               .clear();
                           Navigator.pop(context, setState);
                         },
@@ -368,74 +635,112 @@ class _CustomInsertedWorkerTileState extends State<CustomInsertedWorkerTile> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            const CircleAvatar(),
-            Text(widget.worker.name),
-            Text(widget.worker.email),
-            Text(widget.worker.phone),
-            SizedBox(
-              height: 50,
-              width: 120,
-              child: FutureBuilder<List<String>>(
-                future: WorkerXActivitiesListRemoteAPIDataSource()
-                    .getWorkersAvailableWeekdays(
-                        activityId: widget.activityId,
-                        workerId: widget.worker.id),
-                builder: (context, snapshot) {
-                  if (snapshot.hasError) {
-                    return const Text("Erro");
-                  } else if (snapshot.hasData) {
-                    final days = snapshot.data!;
-                    days.sort((first, second) {
-                      final firstIndex = positionsOfWeekDaysGlobal[first] ?? 8;
-                      final secondIndex =
-                          positionsOfWeekDaysGlobal[second] ?? 8;
-                      return firstIndex.compareTo(secondIndex);
-                    });
-                    return ListView.builder(
-                      padding: const EdgeInsets.all(5),
-                      itemCount: days.length,
-                      itemBuilder: (context, index) {
-                        return Row(
-                          children: [
-                            const Icon(
-                              Icons.circle,
-                              size: 10,
-                            ),
-                            Text(days[index])
-                          ],
-                        );
-                      },
-                    );
-                  } else {
-                    return const CircularProgressIndicator();
-                  }
-                },
+            Expanded(
+              child: Column(
+                children: [
+                  CircleAvatar(
+                    backgroundColor: Color.fromARGB(
+                      255,
+                      Random().nextInt(255),
+                      Random().nextInt(255),
+                      Random().nextInt(255),
+                    ),
+                  ),
+                ],
               ),
             ),
-            Row(children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ElevatedButton(
-                  onPressed: () {
-                    _updateWorkerToActivityDialog();
+            Expanded(
+              child: Column(
+                children: [
+                  Text(widget.worker.name),
+                ],
+              ),
+            ),
+            Expanded(
+              child: Column(
+                children: [
+                  Text(widget.worker.email),
+                ],
+              ),
+            ),
+            Expanded(
+              child: Column(
+                children: [
+                  Text(widget.worker.phone),
+                ],
+              ),
+            ),
+            Expanded(
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height * 0.075,
+                width: MediaQuery.of(context).size.width * 0.2,
+                child: FutureBuilder<List<String>>(
+                  future: WorkerXActivitiesListRemoteAPIDataSource()
+                      .getWorkersAvailableWeekdays(
+                          activityId: widget.activityId,
+                          workerId: widget.worker.id),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError) {
+                      return const Text("Erro");
+                    } else if (snapshot.hasData) {
+                      final days = snapshot.data!;
+                      days.sort((first, second) {
+                        final firstIndex =
+                            positionsOfWeekDaysGlobal[first] ?? 8;
+                        final secondIndex =
+                            positionsOfWeekDaysGlobal[second] ?? 8;
+                        return firstIndex.compareTo(secondIndex);
+                      });
+                      return ListView.builder(
+                        padding: const EdgeInsets.all(5),
+                        itemCount: days.length,
+                        itemBuilder: (context, index) {
+                          return Row(
+                            children: [
+                              const Icon(
+                                Icons.circle,
+                                size: 10,
+                              ),
+                              Text(days[index])
+                            ],
+                          );
+                        },
+                      );
+                    } else {
+                      return const CircularProgressIndicator();
+                    }
                   },
-                  child: const Icon(Icons.edit),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ElevatedButton(
-                  onPressed: () async {
-                    WorkerXActivitiesListRemoteAPIDataSource()
-                        .deleteWorkerActivities(id: widget.worker.id);
-                  },
-                  style: const ButtonStyle(
-                      backgroundColor:
-                          MaterialStatePropertyAll<Color>(Colors.red)),
-                  child: const Icon(Icons.delete),
+            ),
+            Expanded(
+              flex: 2,
+              child:
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      _updateWorkerToActivityDialog();
+                    },
+                    child: const Icon(Icons.edit),
+                  ),
                 ),
-              )
-            ]),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      WorkerXActivitiesListRemoteAPIDataSource()
+                          .deleteWorkerActivities(id: widget.worker.id);
+                    },
+                    style: const ButtonStyle(
+                        backgroundColor:
+                            MaterialStatePropertyAll<Color>(Colors.red)),
+                    child: const Icon(Icons.delete),
+                  ),
+                )
+              ]),
+            ),
           ],
         ),
         const Divider(

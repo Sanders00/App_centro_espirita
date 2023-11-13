@@ -1,5 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:math';
+
 import 'package:common/features/workers/data/api/list.dart';
 import 'package:common/features/workers/data/model/worker.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +23,7 @@ class _WorkerCrudPageState extends State<WorkerCrudPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController whatsController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
+  TextEditingController searchController = TextEditingController();
 
   _postWorkerDialog() {
     return showDialog<void>(
@@ -92,72 +95,190 @@ class _WorkerCrudPageState extends State<WorkerCrudPage> {
         currentIndex: 0,
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(8),
-              width: 200,
-              height: 50,
-              child: CustomButton(function: _postWorkerDialog, text: 'Add+'),
-            ),
-            Container(
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(width: 2)),
-              width: MediaQuery.of(context).size.width * 0.7,
-              height: MediaQuery.of(context).size.height * 0.7,
-              child: Column(
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: Container(
-                      decoration: const BoxDecoration(
-                        borderRadius:
-                            BorderRadius.vertical(top: Radius.circular(20)),
-                        color: Colors.green,
-                      ),
-                      child: const Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Text('Foto'),
-                          Text('Nome'),
-                          Text('Email'),
-                          Text('Telefone'),
-                          Text(''),
-                          Text('')
-                        ],
+        child: Container(
+          width: MediaQuery.of(context).size.width * 0.8,
+          height: MediaQuery.of(context).size.height * 0.8,
+          decoration: BoxDecoration(color: Colors.white, boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 5,
+              blurRadius: 7,
+              offset: const Offset(0, 3),
+            )
+          ]),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: EdgeInsets.only(
+                      left: MediaQuery.of(context).size.width * 0.025),
+                  child: const Text('Trabalhadores',
+                      style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                      )),
+                ),
+              ),
+              SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.75,
+                  child: const Divider()),
+              SizedBox(
+                //padding: const EdgeInsets.all(8),
+                width: MediaQuery.of(context).size.width * 0.75,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      width: 200,
+                      height: 50,
+                      child: TextField(
+                          onChanged: (value) => setState(() {}),
+                          controller: searchController,
+                          decoration: const InputDecoration(
+                            focusedBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.green, width: 2),
+                            ),
+                            border: OutlineInputBorder(),
+                            labelText: 'Procurar Trabalhador',
+                            suffixIcon: Icon(Icons.search),
+                          )),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      width: 200,
+                      height: 50,
+                      child: CustomButton(
+                          function: _postWorkerDialog,
+                          text: 'Adicionar Trabalhador'),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                width: MediaQuery.of(context).size.width * 0.75,
+                height: MediaQuery.of(context).size.height * 0.6,
+                child: Column(
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: Container(
+                        decoration: const BoxDecoration(
+                          borderRadius:
+                              BorderRadius.vertical(top: Radius.circular(5)),
+                          color: Colors.green,
+                        ),
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Expanded(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'Foto',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Expanded(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'Nome',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Expanded(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'Email',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Expanded(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'Telefone',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Expanded(
+                              flex: 2,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'Ações',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  Expanded(
-                    flex: 9,
-                    child: FutureBuilder<List<WorkerModel>>(
-                        future: WorkerListRemoteAPIDataSource().getWorkers(),
-                        builder: (context, snapshot) {
-                          if (snapshot.hasError) {
-                            return const Text("Erro");
-                          } else if (snapshot.hasData) {
-                            final workers = snapshot.data!;
-                            return ListView.builder(
-                              padding: const EdgeInsets.all(5),
-                              itemCount: workers.length,
-                              itemBuilder: (context, index) {
-                                return CustomWorkerTile(
-                                  worker: workers[index],
-                                  context: context,
-                                );
-                              },
-                            );
-                          } else {
-                            return const CircularProgressIndicator();
-                          }
-                        }),
-                  ),
-                ],
-              ),
-            )
-          ],
+                    Expanded(
+                      flex: 9,
+                      child: FutureBuilder<List<WorkerModel>>(
+                          future: WorkerListRemoteAPIDataSource().getWorkers(),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasError) {
+                              return const Text("Erro");
+                            } else if (snapshot.hasData) {
+                              final workers = snapshot.data!;
+                              return ListView.builder(
+                                padding: const EdgeInsets.all(5),
+                                itemCount: workers.length,
+                                itemBuilder: (context, index) {
+                                  final worker = workers[index];
+                                  if (worker.name.toLowerCase().contains(
+                                      searchController.text.toLowerCase())) {
+                                    return CustomWorkerTile(
+                                      worker: workers[index],
+                                      context: context,
+                                    );
+                                  }
+                                  return Container();
+                                },
+                              );
+                            } else {
+                              return SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.25,
+                                  child: const CircularProgressIndicator());
+                            }
+                          }),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -257,45 +378,76 @@ class _CustomWorkerTileState extends State<CustomWorkerTile> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            const CircleAvatar(),
-            Text(widget.worker.name),
-            Text(widget.worker.email),
-            Text(widget.worker.phone),
-            Row(children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ElevatedButton(
-                  onPressed: () {},
-                  style: const ButtonStyle(
-                      backgroundColor:
-                          MaterialStatePropertyAll<Color>(Colors.green)),
-                  child: const Icon(Icons.add),
-                ),
+            Expanded(
+              child: Column(
+                children: [
+                  CircleAvatar(
+                    backgroundColor: Color.fromARGB(
+                      255,
+                      Random().nextInt(255),
+                      Random().nextInt(255),
+                      Random().nextInt(255),
+                    ),
+                  ),
+                ],
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ElevatedButton(
-                  onPressed: () {
-                    _updateWorkerDialog(widget.worker);
-                  },
-                  child: const Icon(Icons.edit),
-                ),
+            ),
+            Expanded(
+              child: Column(
+                children: [
+                  Text(widget.worker.name),
+                ],
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ElevatedButton(
-                  onPressed: () async {
-                    WorkerListRemoteAPIDataSource().deleteWorkers(
-                      id: widget.worker.id,
-                    );
-                  },
-                  style: const ButtonStyle(
-                      backgroundColor:
-                          MaterialStatePropertyAll<Color>(Colors.red)),
-                  child: const Icon(Icons.delete),
-                ),
-              )
-            ]),
+            ),
+            Expanded(
+              child: Column(
+                children: [
+                  Text(widget.worker.email),
+                ],
+              ),
+            ),
+            Expanded(
+              child: Column(
+                children: [
+                  Text(widget.worker.phone),
+                ],
+              ),
+            ),
+            Expanded(
+              flex: 2,
+              child: Column(
+                children: [
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          _updateWorkerDialog(widget.worker);
+                        },
+                        style: const ButtonStyle(
+                            backgroundColor:
+                                MaterialStatePropertyAll<Color>(Colors.blue)),
+                        child: const Icon(Icons.edit),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          WorkerListRemoteAPIDataSource().deleteWorkers(
+                            id: widget.worker.id,
+                          );
+                        },
+                        style: const ButtonStyle(
+                            backgroundColor:
+                                MaterialStatePropertyAll<Color>(Colors.red)),
+                        child: const Icon(Icons.delete),
+                      ),
+                    )
+                  ]),
+                ],
+              ),
+            ),
           ],
         ),
         const Divider(

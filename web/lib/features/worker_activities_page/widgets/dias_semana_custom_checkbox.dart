@@ -6,7 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
 class WorkerXActivitiesXWeekdaysCheckBoxes extends StatefulWidget {
-  const WorkerXActivitiesXWeekdaysCheckBoxes({super.key, required this.activityId});
+  const WorkerXActivitiesXWeekdaysCheckBoxes(
+      {super.key, required this.activityId});
   final int activityId;
   @override
   _WorkerXActivitiesXWeekdaysCheckBoxesState createState() =>
@@ -19,8 +20,6 @@ class _WorkerXActivitiesXWeekdaysCheckBoxesState
 
   List<dynamic> selectedWorkXWeekdays =
       Modular.get<SelectedWeekdays>().selectedWorkXWeekdays;
-  List<dynamic> selectedWorkXWeekdaysString =
-      Modular.get<SelectedWeekdays>().selectedWorkXWeekdaysString;
 
   final Future<List<ScheduleModel>> weekdaysFuture =
       ScheduleListRemoteAPIDataSource().getWeekdays();
@@ -54,10 +53,8 @@ class _WorkerXActivitiesXWeekdaysCheckBoxesState
                     setState(() {
                       if (value != null && value) {
                         selectedWorkXWeekdays.add(day.id);
-                        selectedWorkXWeekdaysString.add(day.weekday);
                       } else {
                         selectedWorkXWeekdays.remove(day.id);
-                        selectedWorkXWeekdaysString.remove(day.weekday);
                       }
                     });
                   },

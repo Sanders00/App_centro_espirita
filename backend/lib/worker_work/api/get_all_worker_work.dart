@@ -12,18 +12,18 @@ Future<Response> getAllWorkerWorkGroup(
   final hasuraConnect = injector.get<HasuraConnect>();
 
   var hasuraResponse = await hasuraConnect.query(r'''
-     query getAllWorkerWorkGroup($_eq: Int!) {
-      workerXwork_group(where: {work_group_id: {_eq: $_eq}}) {
+    query MyQuery($work_group_id: Int!) {
+      workerXwork_group(where: {work_groupXweekday: {work_group_id: {_eq: $work_group_id}}}, distinct_on: worker_id) {
         worker {
           worker_id
           name
           email
-          whatsapp
           phone
+          whatsapp
         }
       }
     }
-      ''', variables: {"_eq": arguments.data['work_group_id']});
+      ''', variables: {"work_group_id": arguments.data['work_group_id']});
 
   return Response.ok(jsonEncode(hasuraResponse['data']));
 }
@@ -35,11 +35,16 @@ Future<Response> getWorkerAvailableWeekdays(
 ) async {
   final hasuraConnect = injector.get<HasuraConnect>();
   var hasuraResponse = await hasuraConnect.query(r'''
-    query getWorkerAvailableWeekdays($work_group_id: Int!, $worker_id: Int!) {
-      workerXwork_group(where: {work_group_id: {_eq: $work_group_id}, worker_id: {_eq: $worker_id}}) {
-        available_days
+    query MyQuery($work_group_id: Int!, $worker_id: Int!) {
+      workerXwork_group(where: {worker_id: {_eq: $worker_id}, work_groupXweekday: {work_group_id: {_eq: $work_group_id}}}) {
+        work_groupXweekday {
+          weekday {
+            weekday_name
+          }
+        }
       }
     }
+
       ''', variables: {
     "work_group_id": arguments.data['work_group_id'],
     "worker_id": arguments.data['worker_id']

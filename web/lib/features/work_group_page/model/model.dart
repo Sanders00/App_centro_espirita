@@ -1,4 +1,4 @@
 class SelectedWeekdays {
   List<dynamic> selectedWorkXWeekdays = [];
-  List<dynamic> selectedWorkXWeekdaysString = [];
+  List<dynamic> selectedWorkerXWork = [];
 }

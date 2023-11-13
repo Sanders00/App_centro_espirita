@@ -14,6 +14,7 @@ Future<Response> getAllWorkGroupsSchedule(
   var hasuraResponse = await hasuraConnect.query(r'''
       query getAllWorkGroupsSchedule( $_eq: Int!){
         work_groupXweekdays(where: {work_group_id: {_eq: $_eq}}) {
+          workgXweekdays_id
           weekday {
             weekdays_id
             weekday_name

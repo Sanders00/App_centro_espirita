@@ -12,15 +12,12 @@ class CustomButton extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
-            color: Colors.green, borderRadius: BorderRadius.circular(12)),
+            color: Colors.green, borderRadius: BorderRadius.circular(5)),
         child: Center(
           child: Text(
             text,
             style: const TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: 18
-            ),
+                color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),
           ),
         ),
       ),
