@@ -50,9 +50,7 @@ class WorkerXActivitiesListRemoteAPIDataSource {
       if (response.statusCode == 200 && response.body.isNotEmpty) {
         var bodyResult = json.decode(response.body);
         bodyResult['workerXactivities'].forEach((element) {
-          element['available_days'].forEach((element) {
-            result.add(element);
-          });
+          result.add(element['activitiesXweekday']['weekday']['weekday_name']);
         });
       }
     } on Exception catch (e) {
@@ -62,10 +60,12 @@ class WorkerXActivitiesListRemoteAPIDataSource {
   }
 
   Future<WorkerModel?> postWorkerActivities({
-    required int activityId,
     required int workerId,
-    required List<dynamic> availableWeekdays,
+    required List<dynamic> activityXweekId,
   }) async {
+    var jsonInsert = activityXweekId
+        .map((e) => {'worker_id': workerId, 'activitiesXweekdays_id': e})
+        .toList();
     final response = await http.post(
       Uri.parse(
         'http://192.168.56.1:4000/Worker_X_Activities',
@@ -74,9 +74,7 @@ class WorkerXActivitiesListRemoteAPIDataSource {
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<dynamic, dynamic>{
-        'activities_id': activityId,
-        'worker_id': workerId,
-        'available_days': availableWeekdays,
+        'objects': jsonInsert,
       }),
     );
 
@@ -110,10 +108,12 @@ class WorkerXActivitiesListRemoteAPIDataSource {
   }
 
   Future<WorkerModel?> updateWorkerActivities({
-    required int activityId,
     required int workerId,
-    required List<dynamic> availableWeekdays,
+    required List<dynamic> activityXweekId,
   }) async {
+    var jsonInsert = activityXweekId
+        .map((e) => {'worker_id': workerId, 'workgXweekdays_id': e})
+        .toList();
     final response = await http.put(
       Uri.parse(
         'http://192.168.56.1:4000/Worker_X_Activities',
@@ -122,9 +122,8 @@ class WorkerXActivitiesListRemoteAPIDataSource {
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<dynamic, dynamic>{
-        'activities_id': activityId,
         'worker_id': workerId,
-        'available_days': availableWeekdays,
+        'objects': jsonInsert,
       }),
     );
 

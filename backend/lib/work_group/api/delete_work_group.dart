@@ -13,6 +13,9 @@ Future<Response> deleteWorkGroup(
 
   var hasuraResponse = await hasuraConnect.mutation(r'''
       mutation DeleteWorkGroup($work_group_id: Int!) {
+        delete_workerXwork_group(where: {work_groupXweekday: {work_group_id: {_eq: $work_group_id}}}) {
+          affected_rows
+        }
         delete_work_groupXweekdays(where: {work_group_id: {_eq: $work_group_id}}) {
           affected_rows
         }

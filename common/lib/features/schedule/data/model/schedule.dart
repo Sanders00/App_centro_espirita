@@ -13,7 +13,7 @@ class ScheduleModel extends ScheduleEntity {
       id: json['weekday']['weekdays_id'] as int,
       weekday: json['weekday']['weekday_name'] as String,
       workergXweekId: json['workgXweekdays_id'] ?? -1,
-      activityXweekId: json['activityXweekdays_id'] ?? -1,
+      activityXweekId: json['activitiesXweekdays_id'] ?? -1,
     );
   }
 

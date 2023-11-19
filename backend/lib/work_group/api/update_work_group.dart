@@ -17,6 +17,12 @@ Future<Response> updateWorkGroup(
       name
       desc
     }
+    delete_workerXwork_group(where: {work_groupXweekday: {work_group_id: {_eq: $work_group_id}}}) {
+      affected_rows
+    }
+    delete_work_groupXweekdays(where: {work_group_id: {_eq: $work_group_id}}) {
+      affected_rows
+    }
     insert_work_groupXweekdays(objects: $work_groupXweekdays) {
       affected_rows
     }

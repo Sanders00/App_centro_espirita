@@ -16,6 +16,9 @@ Future<Response> deleteWorkers(
         delete_workerXwork_group(where: {worker_id: {_eq: $id}}) {
           affected_rows
         }
+        delete_workerXactivities(where: {worker_id: {_eq: $id}}) {
+          affected_rows
+        }
         delete_workers_by_pk(worker_id: $id) {
           worker_id
         }

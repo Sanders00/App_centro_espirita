@@ -12,15 +12,21 @@ Future<Response> postWorkerActivities(
   final hasuraConnect = injector.get<HasuraConnect>();
 
   var hasuraResponse = await hasuraConnect.mutation(r'''
-     mutation postWorkerActivities($worker_id: Int!, $activities_id: Int!, $available_days: [String!]!) {
-      insert_workerXactivities(objects: {worker_id: $worker_id, activities_id: $activities_id, available_days: $available_days}) {
-        affected_rows
+     mutation postWorkerActivities($objects: [workerXactivities_insert_input!] = {}) {
+      insert_workerXactivities(objects: $objects) {
+        returning {
+          worker{
+            worker_id
+            name
+            email
+            phone
+            whatsapp
+          }
+        }
       }
     }
       ''', variables: {
-    "activities_id": arguments.data['activities_id'],
-    "worker_id": arguments.data['worker_id'],
-    "available_days": arguments.data['available_days']
+    "objects": arguments.data['objects'],
   });
 
   return Response.ok(jsonEncode(hasuraResponse['data']));

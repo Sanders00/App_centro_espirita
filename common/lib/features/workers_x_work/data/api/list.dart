@@ -31,8 +31,10 @@ class WorkerXWorkGroupListRemoteAPIDataSource {
     return result;
   }
 
-  Future<List<String>> getWorkersAvailableWeekdays(
-      {required int workGroupId, required int workerId}) async {
+  Future<List<String>> getWorkersAvailableWeekdays({
+    required int workGroupId,
+    required int workerId,
+  }) async {
     var client = http.Client();
     final result = <String>[];
     try {
@@ -107,10 +109,12 @@ class WorkerXWorkGroupListRemoteAPIDataSource {
   }
 
   Future<WorkerModel?> updateWorkerWorkGroup({
-    required int workGroupId,
     required int workerId,
-    required List<dynamic> availableWeekdays,
+    required List<dynamic> workgXweekId,
   }) async {
+    var jsonInsert = workgXweekId
+        .map((e) => {'worker_id': workerId, 'workgXweekdays_id': e})
+        .toList();
     final response = await http.put(
       Uri.parse(
         'http://192.168.56.1:4000/Worker_X_Work_Group',
@@ -118,11 +122,8 @@ class WorkerXWorkGroupListRemoteAPIDataSource {
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: jsonEncode(<dynamic, dynamic>{
-        'work_group_id': workGroupId,
-        'worker_id': workerId,
-        'available_days': availableWeekdays,
-      }),
+      body: jsonEncode(
+          <dynamic, dynamic>{'worker_id': workerId, 'objects': jsonInsert}),
     );
 
     if (response.statusCode == 200) {

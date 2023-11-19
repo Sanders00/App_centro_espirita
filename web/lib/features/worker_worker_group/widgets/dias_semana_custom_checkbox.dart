@@ -58,7 +58,7 @@ class _WorkerXWorkXWeekdaysCheckBoxesState
                         selectedWorkerXWork.add(day.workergXweekId);
                       } else {
                         selectedWorkXWeekdays.remove(day.id);
-                        selectedWorkerXWork.add(day.workergXweekId);
+                        selectedWorkerXWork.remove(day.workergXweekId);
                       }
                     });
                   },

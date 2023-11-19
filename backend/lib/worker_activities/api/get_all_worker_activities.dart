@@ -13,7 +13,7 @@ Future<Response> getAllWorkerActivities(
 
   var hasuraResponse = await hasuraConnect.query(r'''
      query getAllWorkerActivities($_eq: Int!) {
-      workerXactivities(where: {activities_id: {_eq: $_eq}}) {
+      workerXactivities(where: {activitiesXweekday: {activities_id: {_eq: $_eq}}}, distinct_on: worker_id) {
         worker {
           worker_id
           name
@@ -36,8 +36,12 @@ Future<Response> getWorkerAvailableWeekdays(
   final hasuraConnect = injector.get<HasuraConnect>();
   var hasuraResponse = await hasuraConnect.query(r'''
     query getWorkerAvailableWeekdays($activities_id: Int!, $worker_id: Int!) {
-      workerXactivities(where: {activities_id: {_eq: $activities_id}, worker_id: {_eq: $worker_id}}) {
-        available_days
+      workerXactivities(where: {worker_id: {_eq: $worker_id}, activitiesXweekday: {activities_id: {_eq: $activities_id}}}) {
+        activitiesXweekday {
+          weekday {
+            weekday_name
+          }
+        }
       }
     }
       ''', variables: {

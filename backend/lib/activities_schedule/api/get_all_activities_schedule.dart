@@ -14,6 +14,7 @@ Future<Response> getAllActivitiesXSchedule(
   var hasuraResponse = await hasuraConnect.query(r'''
       query getAllActivitiesXSchedule( $_eq: Int!){
         activitiesXweekdays(where: {activities_id: {_eq: $_eq}}) {
+          activitiesXweekdays_id
           weekday {
             weekdays_id
             weekday_name

@@ -451,13 +451,16 @@ class _CustomWorkerTileState extends State<CustomWorkerTile> {
                         function: () {
                           WorkerXActivitiesListRemoteAPIDataSource()
                               .postWorkerActivities(
-                            activityId: widget.activityId,
-                            workerId: widget.worker.id,
-                            availableWeekdays: List.empty(), // todo
-                          );
+                                  workerId: widget.worker.id,
+                                  activityXweekId:
+                                      Modular.get<SelectedWeekdays>()
+                                          .selectedWorkXActivity);
                           setState(() {
                             Modular.get<SelectedWeekdays>()
                                 .selectedWorkXWeekdays
+                                .clear();
+                            Modular.get<SelectedWeekdays>()
+                                .selectedWorkXActivity
                                 .clear();
                             Navigator.pop(context, setState);
                           });
@@ -470,6 +473,9 @@ class _CustomWorkerTileState extends State<CustomWorkerTile> {
                         function: () {
                           Modular.get<SelectedWeekdays>()
                               .selectedWorkXWeekdays
+                              .clear();
+                          Modular.get<SelectedWeekdays>()
+                              .selectedWorkXActivity
                               .clear();
                           Navigator.pop(context, setState);
                         },
@@ -594,13 +600,16 @@ class _CustomInsertedWorkerTileState extends State<CustomInsertedWorkerTile> {
                         function: () {
                           WorkerXActivitiesListRemoteAPIDataSource()
                               .updateWorkerActivities(
-                            activityId: widget.activityId,
-                            workerId: widget.worker.id,
-                            availableWeekdays: List.empty(), // todo
-                          );
+                                  workerId: widget.worker.id,
+                                  activityXweekId:
+                                      Modular.get<SelectedWeekdays>()
+                                          .selectedWorkXActivity);
                           setState(() {
                             Modular.get<SelectedWeekdays>()
                                 .selectedWorkXWeekdays
+                                .clear();
+                            Modular.get<SelectedWeekdays>()
+                                .selectedWorkXActivity
                                 .clear();
                             Navigator.pop(context, setState);
                           });
@@ -613,6 +622,9 @@ class _CustomInsertedWorkerTileState extends State<CustomInsertedWorkerTile> {
                         function: () {
                           Modular.get<SelectedWeekdays>()
                               .selectedWorkXWeekdays
+                              .clear();
+                          Modular.get<SelectedWeekdays>()
+                              .selectedWorkXActivity
                               .clear();
                           Navigator.pop(context, setState);
                         },

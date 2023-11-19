@@ -471,8 +471,7 @@ class _CustomWorkerTileState extends State<CustomWorkerTile> {
                               .postWorkerWorkGroup(
                                   workerId: widget.worker.id,
                                   workgXweekId: Modular.get<SelectedWeekdays>()
-                                      .selectedWorkerXWork //todo
-                                  );
+                                      .selectedWorkerXWork);
                           setState(() {
                             Modular.get<SelectedWeekdays>()
                                 .selectedWorkXWeekdays
@@ -491,6 +490,9 @@ class _CustomWorkerTileState extends State<CustomWorkerTile> {
                         function: () {
                           Modular.get<SelectedWeekdays>()
                               .selectedWorkXWeekdays
+                              .clear();
+                          Modular.get<SelectedWeekdays>()
+                              .selectedWorkerXWork
                               .clear();
                           Navigator.pop(context, setState);
                         },
@@ -618,12 +620,14 @@ class _CustomInsertedWorkerTileState extends State<CustomInsertedWorkerTile> {
                           WorkerXWorkGroupListRemoteAPIDataSource()
                               .updateWorkerWorkGroup(
                                   workerId: widget.worker.id,
-                                  workGroupId: widget.workGroupId,
-                                  availableWeekdays: List.empty() //todo
-                                  );
+                                  workgXweekId: Modular.get<SelectedWeekdays>()
+                                      .selectedWorkerXWork);
                           setState(() {
                             Modular.get<SelectedWeekdays>()
                                 .selectedWorkXWeekdays
+                                .clear();
+                            Modular.get<SelectedWeekdays>()
+                                .selectedWorkerXWork
                                 .clear();
                             Navigator.pop(context, setState);
                           });
@@ -636,6 +640,9 @@ class _CustomInsertedWorkerTileState extends State<CustomInsertedWorkerTile> {
                         function: () {
                           Modular.get<SelectedWeekdays>()
                               .selectedWorkXWeekdays
+                              .clear();
+                          Modular.get<SelectedWeekdays>()
+                              .selectedWorkerXWork
                               .clear();
                           Navigator.pop(context, setState);
                         },
