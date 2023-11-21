@@ -66,6 +66,7 @@ class WorkerXActivitiesListRemoteAPIDataSource {
     var jsonInsert = activityXweekId
         .map((e) => {'worker_id': workerId, 'activitiesXweekdays_id': e})
         .toList();
+    print(jsonInsert);
     final response = await http.post(
       Uri.parse(
         'http://192.168.56.1:4000/Worker_X_Activities',
@@ -112,7 +113,7 @@ class WorkerXActivitiesListRemoteAPIDataSource {
     required List<dynamic> activityXweekId,
   }) async {
     var jsonInsert = activityXweekId
-        .map((e) => {'worker_id': workerId, 'workgXweekdays_id': e})
+        .map((e) => {'worker_id': workerId, 'activitiesXweekdays_id': e})
         .toList();
     final response = await http.put(
       Uri.parse(

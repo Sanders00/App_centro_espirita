@@ -13,12 +13,12 @@ Future<Response> deleteActivities(
 
   var hasuraResponse = await hasuraConnect.mutation(r'''
       mutation deleteActivities($activities_id: Int!) {
+        delete_workerXactivities(where: {activitiesXweekday: {activities_id: {_eq: $activities_id}}}) {
+          affected_rows
+        }
         delete_activitiesXweekdays(where: {activities_id: {_eq: $activities_id}}) {
           affected_rows
         }
-        delete_workerXactivities(where: {activities_id: {_eq: $activities_id}}) {
-        affected_rows
-      }
         delete_activities_by_pk(activities_id: $activities_id) {
           activities_id
         }

@@ -5,6 +5,7 @@ import 'package:app_centro_espirita/features/login_signin/presentation/login_pag
 import 'package:app_centro_espirita/features/login_signin/authentication/firebase_auth_methods.dart';
 import 'package:app_centro_espirita/features/home_page/presentation/settings_page.dart';
 import 'package:app_centro_espirita/features/login_signin/authentication/firebase_options.dart';
+import 'package:app_centro_espirita/features/public_meeting/presentation/public_meeting_page.dart';
 import 'package:app_centro_espirita/features/work_group_page/model/model.dart';
 import 'package:app_centro_espirita/features/work_group_page/presentation/work_group_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -77,6 +78,11 @@ class AppModule extends Module {
           '/Grupo-de-Estudos',
           child: (context, args) =>
               streamBuilderRoute(const WorkGroupCrudPage()),
+        ),
+        ChildRoute(
+          '/Reunião-Pública',
+          child: (context, args) =>
+              streamBuilderRoute(const PublicMeetingCrudPage()),
         ),
         ChildRoute(
           '/Esqueci-Minha-Senha',

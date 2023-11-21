@@ -184,7 +184,7 @@ class _WorkerActivitiesCrudPageState extends State<WorkerActivitiesCrudPage> {
                             flex: 9,
                             child: FutureBuilder<List<WorkerModel>>(
                                 future: WorkerListRemoteAPIDataSource()
-                                    .getWorkers(),
+                                    .getWorkersMinusActivity(),
                                 builder: (context, snapshot) {
                                   if (snapshot.hasError) {
                                     return const Text("Erro");
@@ -194,15 +194,27 @@ class _WorkerActivitiesCrudPageState extends State<WorkerActivitiesCrudPage> {
                                       padding: const EdgeInsets.all(5),
                                       itemCount: workers.length,
                                       itemBuilder: (context, index) {
-                                        return CustomWorkerTile(
-                                          activityId: widget.activityId,
-                                          worker: workers[index],
-                                          context: context,
-                                        );
+                                        var worker = workers[index];
+                                        if (worker.name.toLowerCase().contains(
+                                            searchWorkerController.text
+                                                .toLowerCase())) {
+                                          return CustomWorkerTile(
+                                            activityId: widget.activityId,
+                                            worker: workers[index],
+                                            context: context,
+                                          );
+                                        } else {
+                                          return Container();
+                                        }
                                       },
                                     );
                                   } else {
-                                    return const CircularProgressIndicator();
+                                    return SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.25,
+                                        child:
+                                            const CircularProgressIndicator());
                                   }
                                 }),
                           ),
@@ -387,15 +399,27 @@ class _WorkerActivitiesCrudPageState extends State<WorkerActivitiesCrudPage> {
                                       padding: const EdgeInsets.all(5),
                                       itemCount: workers.length,
                                       itemBuilder: (context, index) {
-                                        return CustomInsertedWorkerTile(
-                                          activityId: widget.activityId,
-                                          worker: workers[index],
-                                          context: context,
-                                        );
+                                        var worker = workers[index];
+                                        if (worker.name.toLowerCase().contains(
+                                            searchRegisteredController.text
+                                                .toLowerCase())) {
+                                          return CustomInsertedWorkerTile(
+                                            activityId: widget.activityId,
+                                            worker: workers[index],
+                                            context: context,
+                                          );
+                                        } else {
+                                          return Container();
+                                        }
                                       },
                                     );
                                   } else {
-                                    return const CircularProgressIndicator();
+                                    return SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.25,
+                                        child:
+                                            const CircularProgressIndicator());
                                   }
                                 }),
                           ),

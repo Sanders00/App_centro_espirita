@@ -28,6 +28,54 @@ class WorkerListRemoteAPIDataSource {
     return result;
   }
 
+  Future<List<WorkerModel>> getWorkersMinusActivity() async {
+    var client = http.Client();
+    final result = <WorkerModel>[];
+    try {
+      final response = await client.get(
+        Uri.parse(
+          'http://192.168.56.1:4000/workers_minus_activity',
+        ),
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
+      if (response.statusCode == 200 && response.body.isNotEmpty) {
+        var bodyResult = json.decode(response.body);
+        bodyResult['workers'].forEach((element) {
+          result.add(WorkerModel.fromJson(element));
+        });
+      }
+    } on Exception catch (e) {
+      print(e.toString());
+    }
+    return result;
+  }
+
+  Future<List<WorkerModel>> getWorkersMinusWorkGroup() async {
+    var client = http.Client();
+    final result = <WorkerModel>[];
+    try {
+      final response = await client.get(
+        Uri.parse(
+          'http://192.168.56.1:4000/workers_minus_work_group',
+        ),
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
+      if (response.statusCode == 200 && response.body.isNotEmpty) {
+        var bodyResult = json.decode(response.body);
+        bodyResult['workers'].forEach((element) {
+          result.add(WorkerModel.fromJson(element));
+        });
+      }
+    } on Exception catch (e) {
+      print(e.toString());
+    }
+    return result;
+  }
+
   Future<WorkerModel?> postWorkers({
     required String name,
     required String email,

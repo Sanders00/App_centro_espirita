@@ -57,7 +57,6 @@ class _WorkerXActivitiesXWeekdaysCheckBoxesState
                       if (value != null && value) {
                         selectedWorkXWeekdays.add(day.id);
                         selectedWorkXActivity.add(day.activityXweekId);
-                        print(day.activityXweekId);
                       } else {
                         selectedWorkXWeekdays.remove(day.id);
                         selectedWorkXActivity.remove(day.activityXweekId);

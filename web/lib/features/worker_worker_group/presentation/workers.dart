@@ -178,8 +178,8 @@ class _WorkerWorkGroupCrudPageState extends State<WorkerWorkGroupCrudPage> {
                         Expanded(
                           flex: 9,
                           child: FutureBuilder<List<WorkerModel>>(
-                              future:
-                                  WorkerListRemoteAPIDataSource().getWorkers(),
+                              future: WorkerListRemoteAPIDataSource()
+                                  .getWorkersMinusWorkGroup(),
                               builder: (context, snapshot) {
                                 if (snapshot.hasError) {
                                   return const Text("Erro");

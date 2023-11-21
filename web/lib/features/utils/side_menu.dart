@@ -18,6 +18,10 @@ List<ButtonsInfo> _buttonInfo = [
       path: '/Grupo-de-Estudos'),
   ButtonsInfo(
       title: "Atividades", icon: Icons.table_chart, path: '/Atividades'),
+  ButtonsInfo(
+      title: "Reunião Pública",
+      icon: Icons.table_chart,
+      path: '/Reunião-Pública'),
   ButtonsInfo(title: "Setting", icon: Icons.settings, path: '/Configurações'),
 ];
 
